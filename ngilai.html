@@ -1,0 +1,1036 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NGILAI — TMB Studio</title>
+    <meta
+      name="description"
+      content="NGILAI — A narrative-driven psychological horror game by TMB Studio, rooted in Malaysian folklore."
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <style>
+      /* ============================================================
+       PROJECT PAGE — additional styles
+       ============================================================ */
+
+      .proj-page {
+        background: var(--black);
+      }
+
+      /* ── HERO ── */
+      .proj-hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(
+          to bottom,
+          #0a0a0a 0%,
+          #111 60%,
+          #1a1a1a 100%
+        );
+        padding: 8rem 2rem 5rem;
+      }
+
+      /* background video behind hero text */
+      .proj-hero-video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.18;
+        pointer-events: none;
+      }
+
+      .proj-hero-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .proj-hero-eyebrow {
+        font-family: var(--font-heading);
+        font-size: 0.75rem;
+        letter-spacing: 0.4rem;
+        text-transform: uppercase;
+        color: var(--grey-light);
+        margin-bottom: 1.5rem;
+        opacity: 0.7;
+      }
+
+      .proj-hero-title {
+        font-family: var(--font-display);
+        font-size: clamp(4rem, 14vw, 10rem);
+        color: var(--pure-white);
+        line-height: 0.9;
+        letter-spacing: 0.1em;
+        text-shadow: 0 0 80px rgba(255, 255, 255, 0.08);
+        margin-bottom: 0.75rem;
+      }
+
+      .proj-hero-tagline {
+        font-family: var(--font-heading);
+        font-size: clamp(0.85rem, 2vw, 1.1rem);
+        letter-spacing: 0.35rem;
+        color: var(--grey-light);
+        text-transform: uppercase;
+        margin-bottom: 3rem;
+        opacity: 0.75;
+      }
+
+      .proj-hero-status {
+        display: inline-block;
+        font-family: var(--font-heading);
+        font-size: 0.7rem;
+        letter-spacing: 0.2rem;
+        text-transform: uppercase;
+        color: var(--white-dim);
+        border: 1px solid var(--border-dim);
+        padding: 0.35rem 1rem;
+        margin-bottom: 2.5rem;
+      }
+
+      .proj-hero-back {
+        display: inline-block;
+        font-family: var(--font-heading);
+        font-size: 0.7rem;
+        letter-spacing: 0.2rem;
+        text-transform: uppercase;
+        color: var(--grey-muted);
+        border: 1px solid var(--border-dim);
+        padding: 0.5rem 1.25rem;
+        transition:
+          color 0.2s,
+          border-color 0.2s;
+      }
+      .proj-hero-back:hover {
+        color: var(--white);
+        border-color: var(--border-glow);
+      }
+
+      /* ── ABOUT SECTION ── */
+      .proj-section {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 6rem 2rem;
+      }
+
+      .proj-about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5rem;
+        align-items: start;
+      }
+
+      .proj-cover-img {
+        border: 1px solid var(--border-dim);
+        overflow: hidden;
+        aspect-ratio: 1/1;
+        background: var(--grey-dark);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--grey-muted);
+        font-family: var(--font-heading);
+        font-size: 0.75rem;
+        letter-spacing: 0.15rem;
+      }
+      .proj-cover-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .proj-about-right {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .proj-title-logo {
+        /* slot for the NGILAI logo image if they have one */
+        margin-bottom: 0.5rem;
+      }
+      .proj-title-logo img {
+        max-width: 380px;
+      }
+      .proj-title-text {
+        font-family: var(--font-display);
+        font-size: clamp(2.5rem, 6vw, 4rem);
+        color: var(--pure-white);
+        line-height: 1;
+        letter-spacing: 0.08em;
+      }
+      .proj-title-sub {
+        font-family: var(--font-heading);
+        font-size: 0.8rem;
+        letter-spacing: 0.3rem;
+        color: var(--grey-muted);
+        text-transform: uppercase;
+        margin-top: 0.25rem;
+      }
+
+      .proj-description {
+        color: var(--grey-muted);
+        font-size: 1rem;
+        line-height: 1.8;
+        border-left: 1px solid var(--border-dim);
+        padding-left: 1.5rem;
+      }
+      .proj-description strong {
+        color: var(--white-dim);
+      }
+
+      /* ── EXHIBITION SECTION ── */
+     
+
+      .proj-exhibition-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5rem;
+        align-items: center;
+      }
+
+      .proj-exhibition-img {
+        border: 1px solid var(--border-dim);
+        overflow: hidden;
+        background: var(--grey-deep);
+        aspect-ratio: 1/1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--grey-muted);
+        font-family: var(--font-heading);
+        font-size: 0.75rem;
+        letter-spacing: 0.15rem;
+      }
+      .proj-exhibition-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .proj-exhibition-text h2 {
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 6vw, 4rem);
+        color: var(--pure-white);
+        line-height: 1;
+        letter-spacing: 0.06em;
+        margin-bottom: 0.5rem;
+      }
+      .proj-exhibition-text .proj-event-name {
+        font-family: var(--font-heading);
+        font-size: 0.75rem;
+        letter-spacing: 0.25rem;
+        color: var(--grey-light);
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
+        display: block;
+      }
+      .proj-exhibition-text p {
+        color: var(--grey-muted);
+        font-size: 1rem;
+        line-height: 1.8;
+      }
+
+      .proj-exhibition-quote {
+        margin-top: 1.5rem;
+        padding: 1.25rem 1.5rem;
+        border-left: 2px solid var(--border-glow);
+        background: rgba(255, 255, 255, 0.02);
+      }
+      .proj-exhibition-quote p {
+        font-style: italic;
+        color: var(--white-dim);
+        font-size: 0.95rem;
+        line-height: 1.7;
+        margin: 0;
+      }
+      .proj-exhibition-quote cite {
+        display: block;
+        margin-top: 0.75rem;
+        font-style: normal;
+        font-family: var(--font-heading);
+        font-size: 0.7rem;
+        letter-spacing: 0.1rem;
+        color: var(--grey-muted);
+      }
+
+      /* ── SCOPE TABLE ── */
+      .proj-scope-bg {
+        background: linear-gradient(
+          to bottom,
+          var(--grey-dark) 0%,
+          var(--black) 100%
+        );
+        padding: 6rem 0;
+      }
+
+      .proj-scope-title {
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        color: var(--pure-white);
+        margin-bottom: 3rem;
+        letter-spacing: 0.08em;
+      }
+
+      .proj-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: var(--font-heading);
+      }
+
+      .proj-table th {
+        font-size: 0.7rem;
+        letter-spacing: 0.25rem;
+        text-transform: uppercase;
+        color: var(--grey-muted);
+        border-bottom: 1px solid var(--border-dim);
+        padding: 0.75rem 1rem;
+        text-align: left;
+      }
+
+      .proj-table td {
+        padding: 1.1rem 1rem;
+        border-bottom: 1px solid var(--border-dim);
+        vertical-align: top;
+        font-size: 0.9rem;
+      }
+
+      .proj-table td:first-child {
+        color: var(--white-dim);
+        font-size: 0.75rem;
+        letter-spacing: 0.1rem;
+        text-transform: uppercase;
+        width: 200px;
+        white-space: nowrap;
+      }
+
+      .proj-table td:last-child {
+        color: var(--grey-muted);
+      }
+
+      .proj-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .proj-table .tag {
+        display: inline-block;
+        border: 1px solid var(--border-dim);
+        padding: 0.15rem 0.5rem;
+        font-size: 0.65rem;
+        letter-spacing: 0.1rem;
+        color: var(--white-dim);
+        margin: 0.15rem 0.15rem 0 0;
+      }
+
+      /* ── WHY SECTION ── */
+      .proj-why-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+      }
+
+      .proj-why-block h3 {
+        font-family: var(--font-display);
+        font-size: clamp(1.3rem, 3vw, 2rem);
+        color: var(--pure-white);
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border-dim);
+      }
+
+      .proj-why-block ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+      }
+
+      .proj-why-block li {
+        color: var(--grey-muted);
+        font-size: 0.95rem;
+        padding-left: 1.25rem;
+        position: relative;
+        line-height: 1.6;
+      }
+      .proj-why-block li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        color: var(--grey-border);
+      }
+
+      /* ── SOFTWARE SECTION ── */
+      .proj-software {
+        margin-top: 3rem;
+        padding-top: 3rem;
+        border-top: 1px solid var(--border-dim);
+      }
+
+      .proj-software h3 {
+        font-family: var(--font-heading);
+        font-size: 0.75rem;
+        letter-spacing: 0.25rem;
+        text-transform: uppercase;
+        color: var(--grey-muted);
+        margin-bottom: 1.5rem;
+      }
+
+      .proj-software-logos {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        align-items: center;
+      }
+
+      .proj-software-tag {
+        font-family: var(--font-heading);
+        font-size: 0.75rem;
+        letter-spacing: 0.15rem;
+        text-transform: uppercase;
+        color: var(--white-dim);
+        border: 1px solid var(--border-dim);
+        padding: 0.5rem 1rem;
+      }
+
+      /* ── CTA ── */
+      .proj-cta {
+        text-align: center;
+        padding: 5rem 2rem;
+        background: var(--black);
+      }
+      .proj-cta p {
+        color: var(--grey-muted);
+        font-size: 1rem;
+        margin: 0.75rem auto 2rem;
+        max-width: 480px;
+      }
+
+      /* ── SYNOPSIS ── */
+      /* Container Blueprint */
+      .chapter-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5rem;
+        align-items: center;
+      }
+
+      /* Left Side: Image Showcase */
+      .image-side {
+        flex: 1;
+        min-height: 350px;
+        position: relative;
+        background: #2a2a30;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .chapter-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+      }
+
+      .chapter-image.active {
+        opacity: 1;
+      }
+
+      /* Right Side: Navigation & Content */
+      .content-side {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      /* Tab Buttons Container */
+      .tab-container {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .tab-btn {
+        font-family: var(--font-heading);
+        font-size: 0.75rem;
+        background: #2a2a30;
+        color: #a0a0a5;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.2s ease;
+      }
+
+      .tab-btn:hover {
+        background: #3a3a42;
+        color: #fff;
+      }
+
+      .tab-btn.active {
+        background: #fff; /* Game highlight color */
+        color: black;
+      }
+
+      /* Synopsis Text Area */
+      .text-box {
+        background: #222226;
+        border-radius: 8px;
+        padding: 24px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .synopsis-content {
+        display: none;
+      }
+
+      .synopsis-content.active {
+        display: block;
+        animation: fadeIn 0.4s ease;
+      }
+
+      .synopsis-content h3 {
+        margin-bottom: 12px;
+        font-size: 1.5rem;
+        color: #fff;
+      }
+
+      .synopsis-content p {
+        color: var(--grey-muted);
+        font-size: 1rem;
+        line-height: 1.8;
+      }
+
+      /* Micro-animation for text swap */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(5px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* responsive */
+      @media (max-width: 768px) {
+        .proj-about-grid,
+        .proj-exhibition-grid,
+        .proj-why-grid {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+        .proj-hero-title {
+          font-size: 4.5rem;
+        }
+        .chapter-section {
+          flex-direction: column;
+        }
+        .image-side {
+          min-height: 250px;
+        }
+      }
+    </style>
+  </head>
+  <body class="proj-page">
+    <!-- NAVIGATION -->
+    <nav id="navbar" role="navigation" aria-label="Main navigation">
+      <a href="./index.html" class="nav-logo">
+        <img
+          src="./assets/logo/logo-transparent white.png"
+          alt="tmb-logo"
+          height="75"
+        />
+      </a>
+
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="nav-links">
+        <li><a href="./index.html#home">Home</a></li>
+        <li><a href="./index.html#about">About</a></li>
+        <li class="nav-item nav-has-dropdown">
+          <a href="./index.html#projects" class="active">Projects</a>
+          <div class="nav-dropdown">
+            <a href="./ngilai.html">Ngilai</a>
+            <a href="./lifegacha.html">Life Gacha!</a>
+          </div>
+        </li>
+        <li><a href="./index.html#team">Team</a></li>
+        <li><a href="./index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- ================================================================
+     HERO — Full-screen title with background video
+     ================================================================ -->
+    <div class="proj-hero">
+      <!--
+    Optional: use the game footage as a subtle background
+    <video class="proj-hero-video" autoplay muted loop playsinline>
+      <source src="./assets/ngilai/ngilai WITH BLOOD.mp4" type="video/mp4" />
+    </video>
+  -->
+
+      <div class="proj-hero-content reveal">
+        <p class="proj-hero-eyebrow">TMB Studio · Current Project</p>
+        <h1 class="proj-hero-title">NGILAI</h1>
+        <p class="proj-hero-tagline">One Deal, No Salvation</p>
+        <div class="proj-hero-status">● In Development — Expected Q3 2026</div>
+        <br />
+        <a href="./index.html#projects" class="proj-hero-back"
+          >&#8592; &nbsp;Back</a
+        >
+      </div>
+    </div>
+
+    <!-- ================================================================
+     ABOUT THE GAME — matches PDF page 2: cover art left, text right
+     ================================================================ -->
+    <div style="background: linear-gradient(to bottom, #1a1a1a 0%, #111 100%)">
+      <div class="proj-section">
+        <div class="proj-about-grid">
+          <!-- Left: game cover poster -->
+          <div class="proj-cover-img reveal">
+            <img
+              src="./assets/ngilai/ngilai poster empty landscape.jpg"
+              alt="ngilai visuals"
+              height="100"
+            />
+          </div>
+
+          <!-- Right: logo + description -->
+          <div class="proj-about-right reveal">
+            <div class="proj-title-logo">
+              <!--
+            If they have a NGILAI logo image file, use:
+            <img src="./assets/ngilai/ngilai-logo.png" alt="NGILAI" />
+            Otherwise the text title below shows instead.
+          -->
+              <div class="proj-title-text">NGILAI</div>
+              <div class="proj-title-sub">One Deal, No Salvation</div>
+            </div>
+
+            <p class="proj-description">
+              The game is a
+              <strong>narrative-driven psychological horror</strong> experience
+              set across isolated and abandoned locations. The story follows a
+              lone protagonist who awakens in an unfamiliar hospital with
+              fragmented memories and a growing sense of unease.
+            </p>
+            <p class="proj-description">
+              As the protagonist escapes and journeys deeper into a
+              <strong>forgotten village hidden within the forest</strong>, the
+              environment gradually reveals traces of a forbidden ritual
+              performed in the past.
+            </p>
+            <p class="proj-description">
+              The tone of the game is tense, unsettling, and introspective —
+              emphasizing
+              <strong
+                >psychological fear, moral consequence, and atmosphere</strong
+              >
+              over direct confrontation.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================
+     SYNOPSIS SECTION
+     ================================================================ -->
+
+    <section class="chapter-section">
+      <div class="image-side">
+        <img
+          src="./assets/ngilai/ngilai chapter 1.jpg"
+          alt="Chapter 1 Artwork"
+          class="chapter-image active"
+          id="img-ch1"
+        />
+        <img
+          src="./assets/ngilai/ngilai chapter 2.jpg"
+          alt="Chapter 2 Artwork"
+          class="chapter-image"
+          id="img-ch2"
+        />
+        <img
+          src="./assets/ngilai/ngilai chapter 3.jpg"
+          alt="Chapter 3 Artwork"
+          class="chapter-image"
+          id="img-ch3"
+        />
+        <img
+          src="./assets/ngilai/ngilai chapter 4.jpg"
+          alt="Chapter 4 Artwork"
+          class="chapter-image"
+          id="img-ch4"
+        />
+      </div>
+
+      <div class="content-side">
+        <div class="tab-container">
+          <button class="tab-btn active" onclick="switchChapter('ch1')">
+            Ch 1
+          </button>
+          <button class="tab-btn" onclick="switchChapter('ch2')">Ch 2</button>
+          <button class="tab-btn" onclick="switchChapter('ch3')">Ch 3</button>
+          <button class="tab-btn" onclick="switchChapter('ch4')">Ch 4</button>
+        </div>
+
+        <div class="text-box">
+          <div class="synopsis-content active" id="text-ch1">
+            <h3>Chapter 1</h3>
+            <p>
+              The player wakes up with no memory and must explore the dark
+              hospital, find key items, collect scattered notes, and search for
+              a way out while strange sounds and distant laughter follow them.
+          </br>
+          </br>
+              Escape the hospital. Survive the laughter.
+            </p>
+          </div>
+
+          <div class="synopsis-content" id="text-ch2">
+            <h3>Chapter 2</h3>
+            <p>
+              TBD
+            </p>
+          </div>
+
+          <div class="synopsis-content" id="text-ch3">
+            <h3>Chapter 3</h3>
+            <p>
+              TBD
+            </p>
+          </div>
+
+          <div class="synopsis-content" id="text-ch4">
+            <h3>Chapter 4</h3>
+            <p>
+              TBD
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+     EXHIBITION — matches PDF page 3: IMINE 2.0
+     ================================================================ -->
+    <div class="proj-exhibition-bg">
+      <div class="proj-section">
+        <div
+          class="section-header reveal"
+          style="text-align: left; margin-bottom: 3rem"
+        >
+          <span class="section-label">Events & Exhibitions</span>
+        </div>
+
+        <div class="proj-exhibition-grid">
+          <!-- Left: exhibition poster -->
+          <div class="reveal">
+            <div class="carousel-wrap">
+              <div class="carousel-track" id="game1CarouselTrack">
+                <div class="carousel-slide">
+                  <img
+                    src="./assets/imine/imine poster.jpg"
+                    alt="imine poster"
+                  />
+                </div>
+                <div class="carousel-slide">
+                  <img
+                    src="./assets/imine/imine-group.jpg"
+                    alt="imine group picture"
+                  />
+                </div>
+              </div>
+              <button
+                class="carousel-btn prev"
+                id="game1Prev"
+                aria-label="Previous"
+              >
+                &#8592;
+              </button>
+              <button
+                class="carousel-btn next"
+                id="game1Next"
+                aria-label="Next"
+              >
+                &#8594;
+              </button>
+            </div>
+            <div class="carousel-dots" id="game1Dots"></div>
+          </div>
+
+          <!-- Right: text -->
+          <div class="proj-exhibition-text reveal">
+            <span class="section-label">About Our Project</span>
+            <h2>IMINE 2.0</h2>
+            <span class="proj-event-name"
+              >International Millennipreneur Innovation &amp; Commercialization
+              Exhibition 2.0</span
+            >
+            <p>
+              TMB Studio presented <strong>NGILAI</strong> — originally
+              developed and conceptualized under the title Syirik — at IMINE
+              2.0, held at Dewan Agung Tuanku Canselor (DATC), UiTM Shah Alam,
+              Selangor on 12–14 April 2026. The exhibition brought together
+              emerging entrepreneurs and innovators from across the region.
+            </p>
+            <br />
+            <p>
+              The showcase gave the team an opportunity to present NGILAI's
+              concept, demonstrate early gameplay, and gather feedback from
+              players, industry peers, and academics — an important milestone in
+              the studio's development journey.
+            </p>
+
+            <blockquote class="proj-exhibition-quote">
+              <p>
+                “Program ini memberi peluang kepada peserta untuk mendedahkan diri
+                dalam industri pembangunan permainan, berkongsi idea kreatif serta
+                membina jaringan hubungan profesional dalam bidang game
+                development.”
+              </p>
+              <cite>— Muhammad Lutfi Hazim Zulkharnane, TMB Studio (UMS)</cite>
+            </blockquote>
+
+            <p style="margin-top: 1.25rem;">
+              TMB Studio's participation at IMINE 2.0 was also featured in local
+              press coverage of UMS students' achievements at the exhibition.
+            </p>
+
+            <a
+              href="https://sabahnews.com.my/ums-raih-empat-pingat-di-imine-2-0-inovasi-pelajar-tarik-perhatian-industri/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="proj-hero-back"
+              style="display: inline-block; margin-top: 0.75rem;"
+            >
+              Read the Full Article &nbsp;&#8594;
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================
+     SCOPE TABLE — matches PDF page 4
+     ================================================================ -->
+    <div class="proj-scope-bg">
+      <div class="proj-section">
+        <h2 class="proj-scope-title reveal">Scope</h2>
+
+        <table class="proj-table reveal">
+          <thead>
+            <tr>
+              <th>Point</th>
+              <th>Explanation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Game Mode</td>
+              <td>
+                <span class="tag">Single Player (4 Levels)</span>
+                <span class="tag">Multiplayer (Coming Soon)</span>
+              </td>
+            </tr>
+            <tr>
+              <td>Pricing</td>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <td>Startup Cost</td>
+              <td>TBD</td>
+            </tr>
+            <tr>
+              <td>Avg. Playtime</td>
+              <td>Under 2 hours</td>
+            </tr>
+            <tr>
+              <td>Unique Value</td>
+              <td>Local Malaysian folklore · 4th wall breaking mechanics</td>
+            </tr>
+            <tr>
+              <td>Genre</td>
+              <td>Horror</td>
+            </tr>
+            <tr>
+              <td>Expected Release</td>
+              <td>Q3 2026 (September 2026)</td>
+            </tr>
+            <tr>
+              <td>Software</td>
+              <td>
+                <span class="tag">Unreal Engine</span>
+                <span class="tag">Blender</span>
+                <span class="tag">Audacity</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ================================================================
+     WHY NGILAI / WHY HORROR — matches PDF pages 5 & 6
+     ================================================================ -->
+    <div
+      style="
+        background: linear-gradient(to bottom, #0a0a0a 0%, #111 100%);
+        padding: 6rem 0;
+      "
+    >
+      <div class="proj-section" style="padding-top: 0; padding-bottom: 0">
+        <div
+          class="section-header reveal"
+          style="text-align: left; margin-bottom: 3rem"
+        >
+          <span class="section-label">The Vision</span>
+        </div>
+
+        <div class="proj-why-grid">
+          <div class="proj-why-block reveal">
+            <h3>Why "NGILAI"?</h3>
+            <ul>
+              <li>
+                An introduction to local folklore, especially from Borneo —
+                Sabah and Sarawak
+              </li>
+              <li>
+                To show that during the old days, ritual was a common and
+                meaningful practice
+              </li>
+              <li>
+                Rituals were not just for summoning — they were an exchange to
+                gain great power, with consequence
+              </li>
+              <li>
+                A story that explores the weight of a deal made in desperation,
+                and what it costs
+              </li>
+            </ul>
+          </div>
+
+          <div class="proj-why-block reveal">
+            <h3>Why Horror?</h3>
+            <ul>
+              <li>
+                Less competition compared to action games, which dominate the
+                market
+              </li>
+              <li>
+                Action games have high revenue but also higher market saturation
+              </li>
+              <li>
+                Horror allows for rich storytelling with smaller teams and
+                budgets
+              </li>
+              <li>
+                Malaysian horror folklore is deeply underrepresented in games
+                globally — a clear gap to fill
+              </li>
+              <li>
+                Inspired by successful Malaysian horror titles like
+                <em>The Night Job: Hotel</em>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Software used -->
+        <div class="proj-software reveal">
+          <h3>Tools & Software</h3>
+          <div class="proj-software-logos">
+            <span class="proj-software-tag">Unreal Engine</span>
+            <span class="proj-software-tag">Blender</span>
+            <span class="proj-software-tag">Audacity</span>
+            <span class="proj-software-tag">Sketchfab</span>
+            <span class="proj-software-tag">Polyhaven</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================
+     CTA — follow + back
+     ================================================================ -->
+    <div class="proj-cta">
+      <span class="ornament">— ✦ —</span>
+      <p>
+        Follow our development journey on socials for devlogs, trailers, and
+        release news.
+      </p>
+      <div
+        style="
+          display: flex;
+          gap: 1rem;
+          justify-content: center;
+          flex-wrap: wrap;
+        "
+      >
+        <a href="./index.html#contact" class="btn-project"
+          >Follow the Journey &nbsp;&#8594;</a
+        >
+        <a
+          href="./index.html#projects"
+          class="proj-hero-back"
+          style="padding: 0.75rem 2rem"
+          >&#8592; &nbsp;Back to Projects</a
+        >
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>© 2026 TMB Studio · Malaysia · All Rights Reserved</p>
+    </footer>
+
+    <script src="./main.js"></script>
+
+    <!-- for switching chapters -->
+    <script>
+      function switchChapter(chapterId) {
+        // 1. Remove active class from all buttons
+        document
+          .querySelectorAll(".tab-btn")
+          .forEach((btn) => btn.classList.remove("active"));
+
+        // 2. Remove active class from all images and text boxes
+        document
+          .querySelectorAll(".chapter-image")
+          .forEach((img) => img.classList.remove("active"));
+        document
+          .querySelectorAll(".synopsis-content")
+          .forEach((text) => text.classList.remove("active"));
+
+        // 3. Find the clicked button based on the function trigger and highlight it
+        event.currentTarget.classList.add("active");
+
+        // 4. Activate the target image and text content
+        document.getElementById("img-" + chapterId).classList.add("active");
+        document.getElementById("text-" + chapterId).classList.add("active");
+      }
+    </script>
+  </body>
+</html>

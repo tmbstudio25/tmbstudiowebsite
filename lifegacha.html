@@ -1,0 +1,852 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Life Gacha! — TMB Studio</title>
+    <meta name="description" content="Life Gacha! — A game by TMB Studio." />
+    <link rel="stylesheet" href="./style.css" />
+    <style>
+      /* ============================================================
+       PROJECT PAGE — additional styles
+       ============================================================ */
+
+      .proj-page {
+        background: var(--black);
+      }
+
+      /* ── HERO ── */
+      .proj-hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(
+          to bottom,
+          #0a0a0a 0%,
+          #111 60%,
+          #1a1a1a 100%
+        );
+        padding: 8rem 2rem 5rem;
+      }
+
+      /* background video behind hero text */
+      .proj-hero-video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.18;
+        pointer-events: none;
+      }
+
+      .proj-hero-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .proj-hero-eyebrow {
+        font-family: var(--font-heading);
+        font-size: 0.75rem;
+        letter-spacing: 0.4rem;
+        text-transform: uppercase;
+        color: var(--grey-light);
+        margin-bottom: 1.5rem;
+        opacity: 0.7;
+      }
+
+      .proj-hero-title {
+        font-family: var(--font-display);
+        font-size: clamp(4rem, 14vw, 10rem);
+        color: var(--pure-white);
+        line-height: 0.9;
+        letter-spacing: 0.1em;
+        text-shadow: 0 0 80px rgba(255, 255, 255, 0.08);
+        margin-bottom: 0.75rem;
+      }
+
+      .proj-hero-tagline {
+        font-family: var(--font-heading);
+        font-size: clamp(0.85rem, 2vw, 1.1rem);
+        letter-spacing: 0.35rem;
+        color: var(--grey-light);
+        text-transform: uppercase;
+        margin-bottom: 3rem;
+        opacity: 0.75;
+      }
+
+      .proj-hero-status {
+        display: inline-block;
+        font-family: var(--font-heading);
+        font-size: 0.7rem;
+        letter-spacing: 0.2rem;
+        text-transform: uppercase;
+        color: var(--white-dim);
+        border: 1px solid var(--border-dim);
+        padding: 0.35rem 1rem;
+        margin-bottom: 2.5rem;
+      }
+
+      .proj-hero-back {
+        display: inline-block;
+        font-family: var(--font-heading);
+        font-size: 0.7rem;
+        letter-spacing: 0.2rem;
+        text-transform: uppercase;
+        color: var(--grey-muted);
+        border: 1px solid var(--border-dim);
+        padding: 0.5rem 1.25rem;
+        transition:
+          color 0.2s,
+          border-color 0.2s;
+      }
+      .proj-hero-back:hover {
+        color: var(--white);
+        border-color: var(--border-glow);
+      }
+
+      /* ── ABOUT SECTION ── */
+      .proj-section {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 6rem 2rem;
+      }
+
+      .proj-about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5rem;
+        align-items: start;
+      }
+
+      .proj-cover-img {
+        border: 1px solid var(--border-dim);
+        overflow: hidden;
+        background: var(--grey-dark);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--grey-muted);
+        font-family: var(--font-heading);
+        font-size: 0.75rem;
+        letter-spacing: 0.15rem;
+      }
+      .proj-cover-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .proj-about-right {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .proj-title-logo {
+        /* slot for the NGILAI logo image if they have one */
+        margin-bottom: 0.5rem;
+      }
+      .proj-title-logo img {
+        max-width: 380px;
+      }
+      .proj-title-text {
+        font-family: var(--font-display);
+        font-size: clamp(2.5rem, 6vw, 4rem);
+        color: var(--pure-white);
+        line-height: 1;
+        letter-spacing: 0.08em;
+      }
+      .proj-title-sub {
+        font-family: var(--font-heading);
+        font-size: 0.8rem;
+        letter-spacing: 0.3rem;
+        color: var(--grey-muted);
+        text-transform: uppercase;
+        margin-top: 0.25rem;
+      }
+
+      .proj-description {
+        color: var(--grey-muted);
+        font-size: 1rem;
+        line-height: 1.8;
+        border-left: 1px solid var(--border-dim);
+        padding-left: 1.5rem;
+      }
+      .proj-description strong {
+        color: var(--white-dim);
+      }
+
+      /* ── EXHIBITION SECTION ── */
+      .proj-exhibition-bg {
+        background: linear-gradient(
+          to bottom,
+          var(--grey-dark) 0%,
+          var(--grey-mid) 50%,
+          var(--grey-dark) 100%
+        );
+        padding: 6rem 0;
+      }
+
+      .proj-exhibition-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5rem;
+        align-items: center;
+      }
+
+      .proj-exhibition-img {
+        border: 1px solid var(--border-dim);
+        overflow: hidden;
+        background: var(--grey-deep);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--grey-muted);
+        font-family: var(--font-heading);
+        font-size: 0.75rem;
+        letter-spacing: 0.15rem;
+      }
+      .proj-exhibition-img img {
+        width: 100%;
+        height: 100%;
+      }
+
+      .proj-exhibition-text h2 {
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 6vw, 4rem);
+        color: var(--pure-white);
+        line-height: 1;
+        letter-spacing: 0.06em;
+        margin-bottom: 0.5rem;
+      }
+      .proj-exhibition-text .proj-event-name {
+        font-family: var(--font-heading);
+        font-size: 0.75rem;
+        letter-spacing: 0.25rem;
+        color: var(--grey-light);
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
+        display: block;
+      }
+      .proj-exhibition-text p {
+        color: var(--grey-muted);
+        font-size: 1rem;
+        line-height: 1.8;
+      }
+
+      /* ── SCOPE TABLE ── */
+      .proj-scope-bg {
+        background: linear-gradient(
+          to bottom,
+          var(--grey-dark) 0%,
+          var(--black) 100%
+        );
+        padding: 6rem 0;
+      }
+
+      .proj-scope-title {
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        color: var(--pure-white);
+        margin-bottom: 3rem;
+        letter-spacing: 0.08em;
+      }
+
+      .proj-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: var(--font-heading);
+      }
+
+      .proj-table th {
+        font-size: 0.7rem;
+        letter-spacing: 0.25rem;
+        text-transform: uppercase;
+        color: var(--grey-muted);
+        border-bottom: 1px solid var(--border-dim);
+        padding: 0.75rem 1rem;
+        text-align: left;
+      }
+
+      .proj-table td {
+        padding: 1.1rem 1rem;
+        border-bottom: 1px solid var(--border-dim);
+        vertical-align: top;
+        font-size: 0.9rem;
+      }
+
+      .proj-table td:first-child {
+        color: var(--white-dim);
+        font-size: 0.75rem;
+        letter-spacing: 0.1rem;
+        text-transform: uppercase;
+        width: 200px;
+        white-space: nowrap;
+      }
+
+      .proj-table td:last-child {
+        color: var(--grey-muted);
+      }
+
+      .proj-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .proj-table .tag {
+        display: inline-block;
+        border: 1px solid var(--border-dim);
+        padding: 0.15rem 0.5rem;
+        font-size: 0.65rem;
+        letter-spacing: 0.1rem;
+        color: var(--white-dim);
+        margin: 0.15rem 0.15rem 0 0;
+      }
+
+      /* ── WHY SECTION ── */
+      .proj-why-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+      }
+
+      .proj-why-block h3 {
+        font-family: var(--font-display);
+        font-size: clamp(1.3rem, 3vw, 2rem);
+        color: var(--pure-white);
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border-dim);
+      }
+
+      .proj-why-block ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+      }
+
+      .proj-why-block li {
+        color: var(--grey-muted);
+        font-size: 0.95rem;
+        padding-left: 1.25rem;
+        position: relative;
+        line-height: 1.6;
+      }
+      .proj-why-block li::before {
+        content: "—";
+        position: absolute;
+        left: 0;
+        color: var(--grey-border);
+      }
+
+      /* ── SOFTWARE SECTION ── */
+      .proj-software {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border-dim);
+      }
+
+      .proj-software h3 {
+        font-family: var(--font-heading);
+        font-size: 0.75rem;
+        letter-spacing: 0.25rem;
+        text-transform: uppercase;
+        color: var(--grey-muted);
+        margin-bottom: 1.5rem;
+      }
+
+      .proj-software-logos {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        align-items: center;
+      }
+
+      .proj-software-tag {
+        font-family: var(--font-heading);
+        font-size: 0.75rem;
+        letter-spacing: 0.15rem;
+        text-transform: uppercase;
+        color: var(--white-dim);
+        border: 1px solid var(--border-dim);
+        padding: 0.5rem 1rem;
+      }
+
+      /* ── CTA ── */
+      .proj-cta {
+        text-align: center;
+        padding: 5rem 2rem;
+        background: var(--black);
+      }
+      .proj-cta p {
+        color: var(--grey-muted);
+        font-size: 1rem;
+        margin: 0.75rem auto 2rem;
+        max-width: 480px;
+      }
+
+      /* ── GAMEPLAY FEATURES (3-column) ── */
+      .proj-features-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 2.5rem;
+      }
+      .proj-feature-card {
+        border: 1px solid var(--border-dim);
+        padding: 2rem 1.75rem;
+        background: rgba(255, 255, 255, 0.02);
+      }
+      .proj-feature-card h4 {
+        font-family: var(--font-heading);
+        font-size: 1rem;
+        letter-spacing: 0.05rem;
+        color: var(--pure-white);
+        margin-bottom: 0.85rem;
+      }
+      .proj-feature-card p {
+        color: var(--grey-muted);
+        font-size: 0.92rem;
+        line-height: 1.7;
+      }
+
+      /* ── UNIQUE POINT CALLOUT ── */
+      .proj-callout {
+        border-left: 2px solid var(--border-glow);
+        padding: 0.5rem 0 0.5rem 2rem;
+      }
+      .proj-callout p {
+        color: var(--grey-muted);
+        font-size: 1rem;
+        line-height: 1.85;
+      }
+
+      /* ── SOFTWARE MARQUEE ── */
+      .proj-marquee-section {
+        overflow: hidden;
+        border-top: 1px solid var(--border-dim);
+        border-bottom: 1px solid var(--border-dim);
+        padding: 2rem 0;
+      }
+
+      @media (max-width: 768px) {
+        .proj-features-grid { grid-template-columns: 1fr; }
+        .proj-about-grid,
+        .proj-exhibition-grid,
+        .proj-why-grid {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+        .proj-hero-title {
+          font-size: 4.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="proj-page">
+    <!-- NAVIGATION -->
+    <nav id="navbar" role="navigation" aria-label="Main navigation">
+      <a href="./index.html" class="nav-logo">
+        <img
+          src="./assets/logo/logo-transparent white.png"
+          alt="tmb-logo"
+          height="75"
+        />
+      </a>
+
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="nav-links">
+        <li><a href="./index.html#home">Home</a></li>
+        <li><a href="./index.html#about">About</a></li>
+        <li class="nav-item nav-has-dropdown">
+          <a href="./index.html#projects" class="active">Projects</a>
+          <div class="nav-dropdown">
+            <a href="./ngilai.html">Ngilai</a>
+            <a href="./lifegacha.html">Life Gacha!</a>
+          </div>
+        </li>
+        <li><a href="./index.html#team">Team</a></li>
+        <li><a href="./index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- ================================================================
+     HERO — Full-screen title with background video
+     ================================================================ -->
+    <div class="proj-hero">
+      <!--
+    Optional: use the game footage as a subtle background
+    <video class="proj-hero-video" autoplay muted loop playsinline>
+      <source src="./assets/ngilai/ngilai NO SOUND NO BLOOD.mp4" type="video/mp4" />
+    </video>
+  -->
+
+      <div class="proj-hero-content reveal">
+        <p class="proj-hero-eyebrow">TMB Studio · Current Project</p>
+        <h1 class="proj-hero-title">Life<br />Gacha!</h1>
+        <p class="proj-hero-tagline">Gacha With Life As Currency</p>
+        <div class="proj-hero-status">● In Development</div>
+        <br />
+        <a href="./index.html#projects" class="proj-hero-back"
+          >&#8592; &nbsp;Back</a
+        >
+      </div>
+    </div>
+
+    <!-- ================================================================
+     ABOUT THE GAME — matches PDF page 2: cover art left, text right
+     ================================================================ -->
+    <div style="background: linear-gradient(to bottom, #1a1a1a 0%, #111 100%)">
+      <div class="proj-section">
+        <div class="proj-about-grid">
+          <!-- Left: game cover poster -->
+          <div class="proj-cover-img reveal">
+              <img src="./assets/life gacha/Life Gacha Art.png" alt="Life Gacha! cover" />
+          </div>
+
+          <!-- Right: logo + description -->
+          <div class="proj-about-right reveal">
+            <div class="proj-title-logo">
+              <!--
+                If they have a Life Gacha! logo image file, use:
+                <img src="./assets/lifegacha/lifegacha-logo.png" alt="Life Gacha!" />
+              -->
+              <div class="proj-title-text">Life Gacha!</div>
+              <div class="proj-title-sub">Turn Based · Rogue-like</div>
+            </div>
+
+            <p class="proj-description">
+              <strong>Life Gacha!</strong> is a turn-based, rogue-like game where players spend their own lifespan
+              to roll a gacha in exchange for weapons and survival. Every roll is a gamble — pulling stronger
+              items brings the player closer to victory, but also closer to death.
+            </p>
+            <p class="proj-description">
+              <strong>Dimension:</strong> 2D &nbsp;·&nbsp;
+              <strong>Resolution:</strong> 1920×1080p &nbsp;·&nbsp;
+              <strong>Platform:</strong> PC
+            </p>
+            <p class="proj-description">
+              <strong>Game Engine:</strong> Unreal Engine &nbsp;·&nbsp;
+              <strong>Expected Playtime:</strong> 8–15 minutes
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================
+     EXHIBITION — matches PDF page 3: IMINE 2.0
+     ================================================================ -->
+    <div class="proj-exhibition-bg">
+      <div class="proj-section">
+        <div
+          class="section-header reveal"
+          style="text-align: left; margin-bottom: 0"
+        >
+          <span class="section-label">Events & Exhibitions</span>
+        </div>
+
+        <div class="proj-exhibition-grid">
+          <div class="reveal">
+            <div class="carousel-wrap">
+              <div class="carousel-track" id="game2CarouselTrack">
+                <div class="carousel-slide">
+                  <img
+                    src="./assets/GDGoC IIUM game fest 2026/game-fest-2026-poster.jpg"
+                    alt="game fest 2026 poster"
+                  />
+                </div>
+                <div class="carousel-slide">
+                  <img
+                    src="./assets/GDGoC IIUM game fest 2026/game-fest-2026-group.jpg"
+                    alt="game fest 2026 group picture"
+                  />
+                </div>
+              </div>
+              <button
+                class="carousel-btn prev"
+                id="game2Prev"
+                aria-label="Previous"
+              >
+                &#8592;
+              </button>
+              <button
+                class="carousel-btn next"
+                id="game2Next"
+                aria-label="Next"
+              >
+                &#8594;
+              </button>
+            </div>
+            <div class="carousel-dots" id="game2Dots"></div>
+          </div>
+
+          <!-- Right: text -->
+          <div class="proj-exhibition-text reveal">
+            <span class="section-label">About Our Project</span>
+            <h2>GameFest 2026</h2>
+            <span class="proj-event-name">GDG IIUM GameFest 2026 — GD GameJam Pitching</span>
+            <p>
+              TMB Studio pitched Life Gacha! at the GDG IIUM GameFest 2026, presented under the
+              GD GameJam — a 7-Day Creation Challenge. The pitch introduced the game's core
+              concept: a turn-based gacha system where the player's own life is the currency.
+            </p>
+            <br />
+            <p>
+              Built in a tight development window, Life Gacha! stood out for its risk-reward design
+              and stylized, high-contrast visual direction — giving the judges and fellow developers
+              a clear look at the team's ability to execute a focused concept under pressure.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================
+     SCOPE TABLE — matches PDF page 4
+     ================================================================ -->
+    <div class="proj-scope-bg">
+      <div class="proj-section">
+        <h2 class="proj-scope-title reveal">Scope</h2>
+
+        <table class="proj-table reveal">
+          <thead>
+            <tr>
+              <th>Point</th>
+              <th>Explanation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Genre</td>
+              <td>Turn-Based, Rogue-like</td>
+            </tr>
+            <tr>
+              <td>Dimension</td>
+              <td>2D</td>
+            </tr>
+            <tr>
+              <td>Resolution</td>
+              <td>1920 × 1080p</td>
+            </tr>
+            <tr>
+              <td>Platform</td>
+              <td>PC</td>
+            </tr>
+            <tr>
+              <td>Game Engine</td>
+              <td>Unreal Engine</td>
+            </tr>
+            <tr>
+              <td>Expected Playtime</td>
+              <td>8 – 15 minutes</td>
+            </tr>
+            <tr>
+              <td>Logline</td>
+              <td>Turn-based gacha where life itself is the currency — exchanged for weapons and survival.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ================================================================
+     GAMEPLAY — matches PDF page 3: three core mechanics
+     ================================================================ -->
+    <div style="background: linear-gradient(to bottom, #0a0a0a 0%, #111 100%);">
+      <div class="proj-section">
+        <div
+          class="section-header reveal"
+          style="text-align: left; margin-bottom: 3rem"
+        >
+          <span class="section-label">Core Mechanics</span>
+          <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem); color: var(--pure-white); letter-spacing: 0.06em;">Gameplay</h2>
+        </div>
+
+        <div class="proj-features-grid">
+          <div class="proj-feature-card reveal">
+            <h4>Turn-Based Life Gacha</h4>
+            <p>
+              The player takes turns fighting enemies using items gained from gacha rolls. Every roll, however,
+              costs the player a piece of their own life.
+            </p>
+          </div>
+
+          <div class="proj-feature-card reveal">
+            <h4>Aging Visual</h4>
+            <p>
+              The player's appearance changes according to their remaining life. The more they spend on the
+              gacha, the more visibly they age — and the closer they get to losing everything.
+            </p>
+          </div>
+
+          <div class="proj-feature-card reveal">
+            <h4>Rest Room</h4>
+            <p>
+              Players can rest to recover HP, but doing so costs them life in return — there is no safe way
+              to recover without paying a price.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================
+     WHY LIFE GACHA / VISUAL & DESIGN — matches PDF pages 4 & 5
+     ================================================================ -->
+    <div
+      style="
+        background: linear-gradient(to bottom, #111 0%, #0a0a0a 100%);
+        padding: 6rem 0;
+      "
+    >
+      <div class="proj-section" style="padding-top: 0; padding-bottom: 0">
+        <div
+          class="section-header reveal"
+          style="text-align: left; margin-bottom: 3rem"
+        >
+          <span class="section-label">The Vision</span>
+        </div>
+
+        <div class="proj-why-grid">
+          <div class="proj-why-block reveal">
+            <h3>Unique Point</h3>
+            <div class="proj-callout">
+              <p>
+                The player does not spend normal money, coins, or mana — they spend their own lifespan to
+                roll the gacha. This makes every roll meaningful: it can grant stronger items, but it also
+                brings the player closer to death.
+              </p>
+              <p style="margin-top: 1rem;">
+                Combined with funny cursed items, turn-based combat, and item-break mechanics, the game
+                creates a risk-reward experience that directly connects to its theme.
+              </p>
+            </div>
+          </div>
+
+          <div class="proj-why-block reveal">
+            <h3>Visual &amp; Design</h3>
+            <ul>
+              <li>High contrast colors</li>
+              <li>Stronger shape language</li>
+              <li>Stylized character and environment design</li>
+              <li>Custom-made audio, produced using BandLab</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Software used — marquee, mirrors index.html -->
+        <div class="proj-software reveal">
+          <div
+          class="section-header reveal"
+          style="text-align: left; margin-bottom: 3rem"
+        >
+          <span class="section-label">Tools</span>
+          <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem); color: var(--pure-white); letter-spacing: 0.06em;">Software Used</h2>
+        </div>
+        </div>
+
+
+    <!-- SOFTWARE MARQUEE — mirrors index.html marquee structure -->
+    <section class="proj-marquee-section">
+      <div class="marquee-track-wrap">
+        <div class="marquee-track">
+          <div class="marquee-item">
+            <img src="./assets/software logo/illustrator_logo.png" alt="Illustrator" />
+            <span class="marquee-item-name">Adobe Illustrator</span>
+          </div>
+          <div class="marquee-item">
+            <img src="./assets/software logo/clipstudiopaint_logo.png" alt="Clip Studio Paint" />
+            <span class="marquee-item-name">Clip Studio Paint</span>
+          </div>
+          <div class="marquee-item">
+            <img src="./assets/software logo/capcut_logo.png" alt="Capcut" />
+            <span class="marquee-item-name">Capcut</span>
+          </div>
+          <div class="marquee-item">
+            <img src="./assets/software logo/unreal_engine_logo_white.png" alt="Unreal Engine" />
+            <span class="marquee-item-name">Unreal Engine</span>
+          </div>
+          <div class="marquee-item">
+            <img src="./assets/software logo/filmora_logo.png" alt="Filmora" />
+            <span class="marquee-item-name">Filmora</span>
+          </div>
+          <div class="marquee-item">
+            <img src="./assets/software logo/bandlab_logo.png" alt="Bandlab" />
+            <span class="marquee-item-name">BandLab</span>
+          </div>
+
+          <!-- duplicate set for the scrolling loop -->
+          <div class="marquee-item">
+            <img src="./assets/software logo/illustrator_logo.png" alt="Illustrator" />
+            <span class="marquee-item-name">Adobe Illustrator</span>
+          </div>
+          <div class="marquee-item">
+            <img src="./assets/software logo/clipstudiopaint_logo.png" alt="Clip Studio Paint" />
+            <span class="marquee-item-name">Clip Studio Paint</span>
+          </div>
+          <div class="marquee-item">
+            <img src="./assets/software logo/capcut_logo.png" alt="Capcut" />
+            <span class="marquee-item-name">Capcut</span>
+          </div>
+          <div class="marquee-item">
+            <img src="./assets/software logo/unreal_engine_logo_white.png" alt="Unreal Engine" />
+            <span class="marquee-item-name">Unreal Engine</span>
+          </div>
+          <div class="marquee-item">
+            <img src="./assets/software logo/filmora_logo.png" alt="Filmora" />
+            <span class="marquee-item-name">Filmora</span>
+          </div>
+          <div class="marquee-item">
+            <img src="./assets/software logo/bandlab_logo.png" alt="Bandlab" />
+            <span class="marquee-item-name">BandLab</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+     CTA — follow + back
+     ================================================================ -->
+    <div class="proj-cta">
+      <span class="ornament">— ✦ —</span>
+      <p>
+        Follow our development journey on socials for devlogs, trailers, and
+        release news.
+      </p>
+      <div
+        style="
+          display: flex;
+          gap: 1rem;
+          justify-content: center;
+          flex-wrap: wrap;
+        "
+      >
+        <a href="./index.html#contact" class="btn-project"
+          >Follow the Journey &nbsp;&#8594;</a
+        >
+        <a
+          href="./index.html#projects"
+          class="proj-hero-back"
+          style="padding: 0.75rem 2rem"
+          >&#8592; &nbsp;Back to Projects</a
+        >
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>© 2026 TMB Studio · Malaysia · All Rights Reserved</p>
+    </footer>
+
+    <script src="./main.js"></script>
+  </body>
+</html>

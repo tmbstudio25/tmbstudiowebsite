@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TMB Studio — Game Development</title>
+    <meta
+      name="description"
+      content="TMB Studio — an indie game development studio crafting horror experiences rooted in Malaysian folklore."
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <!-- ================================================================
+     LANDING / INTRO PAGE
+     ================================================================ -->
+    <div id="landing" role="dialog" aria-label="Welcome screen">
+      <div class="mist-line"></div>
+      <div class="mist-line"></div>
+      <div class="mist-line"></div>
+
+      <div class="landing-inner">
+        <video
+          id="landingVideo"
+          class="landing-video"
+          autoplay
+          muted
+          playsinline
+        >
+          <source src="./assets/logo/logo-no sound.mp4" type="video/mp4" />
+        </video>
+        <button class="btn-enter" id="enterBtn">Enter</button>
+      </div>
+    </div>
+
+    <!-- ================================================================
+     NAVIGATION
+     ================================================================ -->
+    <nav id="navbar" role="navigation" aria-label="Main navigation">
+      <a href="#home" class="nav-logo">
+        <img
+          src="./assets/logo/logo-transparent white.png"
+          alt="tmb-logo"
+          height="75"
+        />
+      </a>
+
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li class="nav-item nav-has-dropdown">
+          <a href="#projects">Projects</a>
+
+          <div class="nav-dropdown">
+            <a href="./ngilai.html">Ngilai</a>
+            <a href="./lifegacha.html">Life Gacha!</a>
+          </div>
+        </li>
+        <li><a href="#team">Team</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- ================================================================
+     HOME / HERO
+     ================================================================ -->
+    <section id="home">
+      <div class="hero-video-wrap reveal">
+        <div class="hero-corner tl"></div>
+        <div class="hero-corner tr"></div>
+        <div class="hero-corner bl"></div>
+        <div class="hero-corner br"></div>
+
+        <!--
+      ════════════════════════════════════════════
+      OPTION A — YouTube embed (autoplay, muted)
+      Replace VIDEO_ID with your YouTube video ID.
+      The video ID is the part after ?v= in the URL.
+      e.g. youtube.com/watch?v=dQw4w9WgXcQ → id is dQw4w9WgXcQ
+
+      <iframe
+        id="heroVideo"
+        width="100%" height="100%"
+        src="https://www.youtube.com/embed/VIDEO_ID?autoplay=1&mute=1&loop=1&playlist=VIDEO_ID&controls=0"
+        frameborder="0"
+        allow="autoplay; fullscreen"
+        allowfullscreen>
+      </iframe>
+
+      NOTE: YouTube iframes can't be un-muted by JS, so remove the mute button
+      if using this option — or link to the full YouTube video below the embed.
+      ════════════════════════════════════════════
+
+      OPTION B — Local/hosted video file (recommended for autoplay + unmute control)
+      Upload your video file to your project folder as assets/trailer.mp4
+      then replace the placeholder below with:
+
+      <video id="heroVideo" class="hero-video" autoplay muted loop playsinline>
+        <source src="./assets/trailer.mp4" type="video/mp4">
+      </video>
+      <button class="video-mute-btn" id="muteBtn" onclick="toggleMute()">🔇 Unmute</button>
+      ════════════════════════════════════════════
+    -->
+
+        <!-- PLACEHOLDER — remove this entire div once you add real video above -->
+        <div class="hero-video-placeholder">
+          <video
+            id="heroVideo"
+            class="hero-video"
+            autoplay
+            muted
+            loop
+            playsinline
+          >
+            <source
+              src="./assets/ngilai/ngilai trailer.mp4"
+              type="video/mp4"
+            />
+          </video>
+        </div>
+      </div>
+
+      <div class="hero-tagline reveal">
+        <span class="ornament">— ✦ —</span>
+        <p>
+          A Malaysian indie studio creating games, 3D animation, and motion
+          graphics that bring ideas to life.
+        </p>
+      </div>
+    </section>
+
+    <!-- ================================================================
+     ABOUT
+     ================================================================ -->
+    <section id="about">
+      <div class="about-grid">
+        <div class="reveal">
+          <div class="carousel-wrap">
+            <div class="carousel-track" id="aboutCarouselTrack">
+              <div class="carousel-slide">
+                <img src="./assets/imine/imine poster.jpg" alt="imine poster" />
+              </div>
+              <div class="carousel-slide">
+                <img
+                  src="./assets/imine/imine-group.jpg"
+                  alt="imine group picture"
+                />
+              </div>
+              <div class="carousel-slide">
+                <img
+                  src="./assets/GDGoC IIUM game fest 2026/game-fest-2026-poster.jpg"
+                  alt="game fest 2026 poster"
+                />
+              </div>
+              <div class="carousel-slide">
+                <img
+                  src="./assets/GDGoC IIUM game fest 2026/game-fest-2026-group.jpg"
+                  alt="game fest 2026 group picture"
+                />
+              </div>
+            </div>
+            <button
+              class="carousel-btn prev"
+              id="aboutPrev"
+              aria-label="Previous"
+            >
+              &#8592;
+            </button>
+            <button class="carousel-btn next" id="aboutNext" aria-label="Next">
+              &#8594;
+            </button>
+          </div>
+          <div class="carousel-dots" id="aboutDots"></div>
+        </div>
+
+        <div class="about-text reveal">
+          <span class="section-label">Who We Are</span>
+          <h2>Bringing Local to Global</h2>
+          <hr class="divider" style="margin: 1.5rem 0" />
+          <p>
+            TMB Studio is a Malaysian indie game and animation studio dedicated
+            to creating immersive experiences through game development, 3D
+            animation, and motion graphics.
+          </p>
+          <p>
+            Inspired by the myths, folklore, and untold stories of Southeast
+            Asia, we transform cultural heritage into modern interactive
+            experiences that entertain, inspire, and leave a lasting impression.
+          </p>
+          <p>
+            Driven by creativity and a passion for storytelling, we continue to
+            explore new ideas, refine our craft, and share our journey as we
+            build original worlds for players and audiences around the globe.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+        PROJECTS — Featured single project
+        ================================================================ -->
+    <section id="projects">
+      <div class="inner">
+        <div class="section-header reveal">
+          <span class="section-label">Our Work</span>
+          <h2>Projects</h2>
+          <span class="ornament">— ✦ —</span>
+        </div>
+
+        <!-- PEEK CAROUSEL -->
+        <div class="peek-carousel-outer">
+          <div class="peek-carousel-track" id="peekTrack">
+            <!-- CARD 1 — NGILAI -->
+            <div class="peek-card active" data-index="0">
+              <div class="peek-card-media">
+                <video id="featuredprojectVideo" autoplay muted playsinline>
+                  <source
+                    src="./assets/ngilai/ngilai WITH BLOOD.mp4"
+                    type="video/mp4"
+                  />
+                </video>
+                <span class="peek-card-tag">In Development</span>
+              </div>
+              <div class="peek-card-body">
+                <h3>NGILAI</h3>
+                <p>
+                  A narrative-driven psychological horror experience set across
+                  isolated and abandoned locations, rooted in Malaysian
+                  folklore.
+                </p>
+                <div class="peek-card-footer">
+                  <div class="peek-card-meta">
+                    <div><span>Genre</span> Horror / Narrative</div>
+                    <div><span>Platform</span> TBA</div>
+                  </div>
+                  <a href="./ngilai.html" class="btn-project"
+                    >Learn More &nbsp;&#8594;</a
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 2 — LIFE GACHA! -->
+            <div class="peek-card" data-index="1">
+              <div class="peek-card-media">
+                  <img src="./assets/life gacha/Life Gacha Art.png" alt="Life Gacha!" />
+                <span class="peek-card-tag">In Development</span>
+              </div>
+              <div class="peek-card-body">
+                <h3>Life Gacha!</h3>
+                <p>
+                  Life Gacha! is a turn-based, rogue-like game where players spend their own lifespan to roll a gacha in exchange for weapons and survival. 
+                  Every roll is a gamble — pulling stronger items brings the player closer to victory, but also closer to death.
+                </p>
+                <div class="peek-card-footer">
+                  <div class="peek-card-meta">
+                    <div><span>Genre</span> Turn-Based, Rogue-like</div>
+                    <div><span>Platform</span> TBA</div>
+                  </div>
+                  <a href="./lifegacha.html" class="btn-project"
+                    >Learn More &nbsp;&#8594;</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /peek-carousel-track -->
+        </div>
+        <!-- /peek-carousel-outer -->
+
+        <!-- Controls below the carousel -->
+        <div class="peek-carousel-controls">
+          <button
+            class="peek-arrow"
+            id="peekPrev"
+            aria-label="Previous project"
+          >
+            &#8592;
+          </button>
+          <div class="peek-dots" id="peekDots"></div>
+          <button class="peek-arrow" id="peekNext" aria-label="Next project">
+            &#8594;
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+     TEAM
+     ================================================================ -->
+    <section id="team">
+      <div class="section-header reveal">
+        <span class="section-label">The People</span>
+        <h2>Meet the Team</h2>
+        <span class="ornament">— ✦ —</span>
+      </div>
+
+      <div class="team-grid">
+        <div class="team-card reveal">
+          <div class="team-avatar">
+            <img src="./assets/team/team-raziq.png" alt="raziq" />
+          </div>
+          <h3>MOHAMAD RAZIQAIMAN BIN MOHD YAZID</h3>
+          <p class="team-role">
+            Director<br />Lead 3D Generalist<br />Animator
+          </p>
+        </div>
+
+        <div class="team-card reveal">
+          <div class="team-avatar">
+            <img src="./assets/team/team-rizal.png" alt="rizal" />
+          </div>
+          <h3>MOHAMMAD RIZAL BIN BENI</h3>
+          <p class="team-role">
+            Founder<br />Game World Designer<br />Game Level Designer
+          </p>
+        </div>
+
+        <div class="team-card reveal">
+          <div class="team-avatar">
+            <img src="./assets/team/team-irfan.png" alt="irfan" />
+          </div>
+          <h3>MOHAMMAD IRFANLEE SHAWQI BIN JOHN</h3>
+          <p class="team-role">Graphic Designer<br />Environment Artist</p>
+        </div>
+
+        <div class="team-card reveal">
+          <div class="team-avatar">
+            <img src="./assets/team/team-ariff.png" alt="team-ariff" />
+          </div>
+          <h3>AWANGKU MOHAMMAD ARIFF BIN MOHD AZRI</h3>
+          <p class="team-role">Project Coordinator<br />Programmer</p>
+        </div>
+
+        <div class="team-card reveal">
+          <div class="team-avatar">
+            <img src="./assets/team/team-fazlil.png" alt="fazlil" />
+          </div>
+          <h3>MOHD FAZLIL BIN MOHD BILL</h3>
+          <p class="team-role">Lead Gameplay Programmer</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+     MARQUEE — Software & Tools
+     ================================================================ -->
+    <section id="marquee-section">
+      <div class="section-header reveal">
+        <span class="section-label">The Tools</span>
+        <h2>Tools and Software We Use</h2>
+        <span class="ornament">— ✦ —</span>
+      </div>
+      
+
+      <div class="marquee-track-wrap">
+        <div class="marquee-track">
+          <div class="marquee-item">
+            <img
+              src="./assets/software logo/unreal_engine_logo_white.png"
+              alt="Unreal Engine"
+            />
+            <span class="marquee-item-name">Unreal Engine</span>
+          </div>
+          <div class="marquee-item">
+            <img src="./assets/software logo/blender_logo.png" alt="Blender" />
+            <span class="marquee-item-name">Blender</span>
+          </div>
+          <div class="marquee-item">
+            <img src="./assets/software logo/bandlab_logo.png" alt="Bandlab" />
+            <span class="marquee-item-name">Bandlab</span>
+          </div>
+          <div class="marquee-item">
+            <img
+              src="./assets/software logo/photoshop_logo.png"
+              alt="Photoshop"
+            />
+            <Photoshop class="marquee-item-name">Adobe Photoshop</span>
+          </div>
+          <div class="marquee-item">
+            <img
+              src="./assets/software logo/illustrator_logo.png"
+              alt="Illustrator"
+            />
+            <span class="marquee-item-name">Adobe Illustrator</span>
+          </div>
+          <div class="marquee-item">
+            <img
+              src="./assets/software logo/substance_3d_painter_logo.png"
+              alt="Substance 3D Painter"
+            />
+            <span class="marquee-item-name">Adobe Substance 3D Painter</span>
+          </div>
+          <div class="marquee-item">
+            <img src="./assets/software logo/filmora_logo.png" alt="Filmora" />
+            <span class="marquee-item-name">Filmora</span>
+          </div>
+          <div class="marquee-item">
+            <img src="./assets/software logo/capcut_logo.png" alt="Capcut" />
+            <span class="marquee-item-name">Capcut</span>
+          </div>
+          <div class="marquee-item">
+            <img
+              src="./assets/software logo/clipstudiopaint_logo.png"
+              alt="Clip Studio Paint"
+            />
+            <span class="marquee-item-name">Clip Studio Paint</span>
+          </div>
+          <div class="marquee-item">
+            <img
+              src="./assets/software logo/premiere_pro_logo.png"
+              alt="Premiere Pro"
+            />
+            <span class="marquee-item-name">Premiere Pro</span>
+          </div>
+
+          <div class="marquee-item">
+            <img
+              src="./assets/software logo/unreal_engine_logo_white.png"
+              alt="Unreal Engine"
+            />
+            <span class="marquee-item-name">Unreal Engine</span>
+          </div>
+          <div class="marquee-item">
+            <img src="./assets/software logo/blender_logo.png" alt="Blender" />
+            <span class="marquee-item-name">Blender</span>
+          </div>
+          <div class="marquee-item">
+            <img src="./assets/software logo/bandlab_logo.png" alt="Bandlab" />
+            <span class="marquee-item-name">Bandlab</span>
+          </div>
+          <div class="marquee-item">
+            <img
+              src="./assets/software logo/photoshop_logo.png"
+              alt="Photoshop"
+            />
+            <span class="marquee-item-name">Adobe Photoshop</span>
+          </div>
+          <div class="marquee-item">
+            <img
+              src="./assets/software logo/illustrator_logo.png"
+              alt="Illustrator"
+            />
+            <span class="marquee-item-name">Adobe Illustrator</span>
+          </div>
+          <div class="marquee-item">
+            <img
+              src="./assets/software logo/substance_3d_painter_logo.png"
+              alt="Substance 3D Painter"
+            />
+            <span class="marquee-item-name">Adobe Substance 3D Painter</span>
+          </div>
+          <div class="marquee-item">
+            <img src="./assets/software logo/filmora_logo.png" alt="Filmora" />
+            <span class="marquee-item-name">Filmora</span>
+          </div>
+          <div class="marquee-item">
+            <img src="./assets/software logo/capcut_logo.png" alt="Capcut" />
+            <span class="marquee-item-name">Capcut</span>
+          </div>
+          <div class="marquee-item">
+            <img
+              src="./assets/software logo/clipstudiopaint_logo.png"
+              alt="Clip Studio Paint"
+            />
+            <span class="marquee-item-name">Clip Studio Paint</span>
+          </div>
+          <div class="marquee-item">
+            <img
+              src="./assets/software logo/premiere_pro_logo.png"
+              alt="Premiere Pro"
+            />
+            <span class="marquee-item-name">Premiere Pro</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+     CONTACT
+     ================================================================ -->
+    <section id="contact">
+      <div class="inner">
+        <div class="section-header reveal">
+          <span class="section-label">Reach Us</span>
+          <h2>Contact & Socials</h2>
+          <span class="ornament">— ✦ —</span>
+          <p
+            style="
+              color: var(--grey-muted);
+              max-width: 500px;
+              margin: 0.75rem auto 0;
+              font-size: 1rem;
+            "
+          >
+            Follow our journey, send us a message, or just come say hello.
+          </p>
+        </div>
+
+        <div class="contact-links reveal">
+          <a
+            href="https://www.instagram.com/tmb.studio25?igsh=cXI2MnQwdGozYjlt"
+            class="contact-link-item"
+            ><span class="icon"><img
+              src="./assets/software logo/instagram_logo.png"
+              alt="Instagram" class="contact-icon"
+            /></span><span>Instagram</span></a
+          >
+          <a
+            href="https://www.linkedin.com/in/tmb-studio"
+            class="contact-link-item"
+            ><span class="icon"><img
+              src="./assets/software logo/linkedin_logo.png"
+              alt="LinkedIn" class="contact-icon"
+            /></span><span>LinkedIn</span></a
+          >
+          <a
+            href="https://www.tiktok.com/@tmb.studio25?_r=1&_t=ZS-97YAaf9Zfrs"
+            class="contact-link-item"
+            ><span class="icon"><img
+              src="./assets/software logo/tiktok_logo.png"
+              alt="Tiktok" class="contact-icon" 
+            /></span><span>TikTok</span></a
+          >
+          <a href="mailto:tmbstudio25@gmail.com" class="contact-link-item"
+            ><span class="icon"><img
+              src="./assets/software logo/email_logo.png"
+              alt="Email" class="contact-icon"
+            /></span><span>tmbstudio25@gmail.com</span></a
+          >
+          <a href="#" class="contact-link-item"
+            ><span class="icon"><img
+              src="./assets/software logo/itch_io_logo.png"
+              alt="Itchio" class="contact-icon"
+            /></span><span>itch.io (TBA)</span></a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+     FOOTER
+     ================================================================ -->
+    <footer>
+      <p>© 2026 TMB Studio · Malaysia · All Rights Reserved</p>
+    </footer>
+
+    <script src="./main.js"></script>
+
+    <!-- Mute toggle function for local video (Option B) -->
+    <script>
+      function toggleMute() {
+        const video = document.getElementById("heroVideo");
+        const btn = document.getElementById("muteBtn");
+        if (!video) return;
+        video.muted = !video.muted;
+        btn.textContent = video.muted ? "🔇 Unmute" : "🔊 Mute";
+      }
+    </script>
+  </body>
+</html>
