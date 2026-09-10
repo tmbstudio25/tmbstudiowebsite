@@ -12,28 +12,6 @@
   </head>
   <body>
     <!-- ================================================================
-     LANDING / INTRO PAGE
-     ================================================================ -->
-    <div id="landing" role="dialog" aria-label="Welcome screen">
-      <div class="mist-line"></div>
-      <div class="mist-line"></div>
-      <div class="mist-line"></div>
-
-      <div class="landing-inner">
-        <video
-          id="landingVideo"
-          class="landing-video"
-          autoplay
-          muted
-          playsinline
-        >
-          <source src="./assets/logo/logo-no sound.mp4" type="video/mp4" />
-        </video>
-        <button class="btn-enter" id="enterBtn">Enter</button>
-      </div>
-    </div>
-
-    <!-- ================================================================
      NAVIGATION
      ================================================================ -->
     <nav id="navbar" role="navigation" aria-label="Main navigation">
@@ -106,7 +84,6 @@
       ════════════════════════════════════════════
     -->
 
-        <!-- PLACEHOLDER — remove this entire div once you add real video above -->
         <div class="hero-video-placeholder">
           <video
             id="heroVideo"
@@ -117,6 +94,7 @@
             playsinline
           >
             <source
+              data-cms-src="home.heroVideo"
               src="./assets/ngilai/ngilai trailer.mp4"
               type="video/mp4"
             />
@@ -142,22 +120,25 @@
           <div class="carousel-wrap">
             <div class="carousel-track" id="aboutCarouselTrack">
               <div class="carousel-slide">
-                <img src="./assets/imine/imine poster.jpg" alt="imine poster" />
+                <img data-cms-src="home.aboutImages.0" src="./assets/imine/imine poster.jpg" alt="imine poster" />
               </div>
               <div class="carousel-slide">
                 <img
+                  data-cms-src="home.aboutImages.1"
                   src="./assets/imine/imine-group.jpg"
                   alt="imine group picture"
                 />
               </div>
               <div class="carousel-slide">
                 <img
+                  data-cms-src="home.aboutImages.2"
                   src="./assets/GDGoC IIUM game fest 2026/game-fest-2026-poster.jpg"
                   alt="game fest 2026 poster"
                 />
               </div>
               <div class="carousel-slide">
                 <img
+                  data-cms-src="home.aboutImages.3"
                   src="./assets/GDGoC IIUM game fest 2026/game-fest-2026-group.jpg"
                   alt="game fest 2026 group picture"
                 />
@@ -215,58 +196,55 @@
         <div class="peek-carousel-outer">
           <div class="peek-carousel-track" id="peekTrack">
             <!-- CARD 1 — NGILAI -->
-            <div class="peek-card active" data-index="0">
+            <a class="peek-card active" data-index="0" href="./ngilai.html" data-cms-href="home.projects.0.link">
               <div class="peek-card-media">
                 <video id="featuredprojectVideo" autoplay muted playsinline>
                   <source
+                    data-cms-src="home.projects.0.media"
                     src="./assets/ngilai/ngilai WITH BLOOD.mp4"
                     type="video/mp4"
                   />
                 </video>
-                <span class="peek-card-tag">In Development</span>
+                <span class="peek-card-tag" data-cms-text="home.projects.0.tag">In Development</span>
               </div>
               <div class="peek-card-body">
-                <h3>NGILAI</h3>
-                <p>
+                <h3 data-cms-text="home.projects.0.title">NGILAI</h3>
+                <p data-cms-text="home.projects.0.description">
                   A narrative-driven psychological horror experience set across
                   isolated and abandoned locations, rooted in Malaysian
                   folklore.
                 </p>
                 <div class="peek-card-footer">
                   <div class="peek-card-meta">
-                    <div><span>Genre</span> Horror / Narrative</div>
-                    <div><span>Platform</span> TBA</div>
+                    <div><span>Genre</span> <span data-cms-text="home.projects.0.genre">Horror / Narrative</span></div>
+                    <div><span>Platform</span> <span data-cms-text="home.projects.0.platform">TBA</span></div>
                   </div>
-                  <a href="./ngilai.html" class="btn-project"
-                    >Learn More &nbsp;&#8594;</a
-                  >
+                  <span class="btn-project">Learn More &nbsp;&#8594;</span>
                 </div>
               </div>
-            </div>
+            </a>
 
             <!-- CARD 2 — LIFE GACHA! -->
-            <div class="peek-card" data-index="1">
+            <a class="peek-card" data-index="1" href="./lifegacha.html" data-cms-href="home.projects.1.link">
               <div class="peek-card-media">
-                  <img src="./assets/life gacha/Life Gacha Art.png" alt="Life Gacha!" />
-                <span class="peek-card-tag">In Development</span>
+                  <img data-cms-src="home.projects.1.media" src="./assets/life gacha/Life Gacha Art.png" alt="Life Gacha!" />
+                <span class="peek-card-tag" data-cms-text="home.projects.1.tag">In Development</span>
               </div>
               <div class="peek-card-body">
-                <h3>Life Gacha!</h3>
-                <p>
+                <h3 data-cms-text="home.projects.1.title">Life Gacha!</h3>
+                <p data-cms-text="home.projects.1.description">
                   Life Gacha! is a turn-based, rogue-like game where players spend their own lifespan to roll a gacha in exchange for weapons and survival. 
                   Every roll is a gamble — pulling stronger items brings the player closer to victory, but also closer to death.
                 </p>
                 <div class="peek-card-footer">
                   <div class="peek-card-meta">
-                    <div><span>Genre</span> Turn-Based, Rogue-like</div>
-                    <div><span>Platform</span> TBA</div>
+                    <div><span>Genre</span> <span data-cms-text="home.projects.1.genre">Turn-Based, Rogue-like</span></div>
+                    <div><span>Platform</span> <span data-cms-text="home.projects.1.platform">TBA</span></div>
                   </div>
-                  <a href="./lifegacha.html" class="btn-project"
-                    >Learn More &nbsp;&#8594;</a
-                  >
+                  <span class="btn-project">Learn More &nbsp;&#8594;</span>
                 </div>
               </div>
-            </div>
+            </a>
           </div>
           <!-- /peek-carousel-track -->
         </div>
@@ -549,6 +527,7 @@
       <p>© 2026 TMB Studio · Malaysia · All Rights Reserved</p>
     </footer>
 
+    <script src="./cms.js"></script>
     <script src="./main.js"></script>
 
     <!-- Mute toggle function for local video (Option B) -->

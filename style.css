@@ -150,154 +150,6 @@ a:hover {
 }
 
 /* ============================================================
-   LANDING PAGE
-   ============================================================ */
-#landing {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: #000000; /* pure black, no gradient */
-  text-align: center;
-  transition:
-    opacity 0.8s ease,
-    visibility 0.8s ease;
-}
-
-#landing.hidden {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-/* removed ::before radial gradient — pure black background only */
-
-.landing-inner {
-  position: relative;
-  z-index: 1;
-}
-
-.landing-eyebrow {
-  font-family: var(--font-heading);
-  font-size: 0.8rem;
-  letter-spacing: 0.4rem;
-  color: var(--grey-light);
-  text-transform: uppercase;
-  margin-bottom: 1.5rem;
-  opacity: 0.65;
-}
-
-.landing-title {
-  font-family: var(--font-display);
-  font-size: clamp(2.5rem, 8vw, 5.5rem);
-  color: var(--pure-white);
-  line-height: 1.1;
-  text-shadow:
-    0 0 60px rgba(255, 255, 255, 0.15),
-    0 2px 4px rgba(0, 0, 0, 0.9);
-  margin-bottom: 0.5rem;
-}
-
-.landing-subtitle {
-  font-family: var(--font-heading);
-  font-size: clamp(0.9rem, 2vw, 1.2rem);
-  color: var(--grey-light);
-  letter-spacing: 0.2rem;
-  margin-bottom: 3rem;
-}
-
-.btn-enter {
-  font-family: var(--font-heading);
-  font-size: 0.85rem;
-  letter-spacing: 0.3rem;
-  text-transform: uppercase;
-  color: var(--black);
-  background: var(--white);
-  border: 2px solid var(--white);
-  padding: 0.9rem 3rem;
-  cursor: pointer;
-  transition:
-    background 0.25s,
-    color 0.25s,
-    box-shadow 0.25s;
-  clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
-}
-.btn-enter:hover {
-  background: transparent;
-  color: var(--white);
-  box-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
-}
-
-/* 1. Size and constrain the video */
-.landing-video {
-  width: 100%; /* Allows it to be responsive */
-  max-width: 600px; /* Forces the video to stop growing past 600px (Adjust this to your liking!) */
-  height: auto; /* Keeps the original 16:9 aspect ratio perfectly */
-  display: block; /* Removes any weird baseline spacing beneath the video */
-  margin-bottom: 2rem; /* Creates a nice gap between the video and the "Enter" button */
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5); /* Optional: Adds depth so it pops against the dark background */
-}
-
-/* 2. Clean up the container layout */
-.landing-inner {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column; /* Stacks the video on top of the button */
-  align-items: center; /* Centers both items horizontally */
-  width: 90%; /* Prevents it from touching screen edges on mobile */
-  max-width: 600px; /* Matches the video width */
-}
-
-/* mist lines — now white/grey */
-.mist-line {
-  position: absolute;
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.15),
-    transparent
-  );
-  animation: mistDrift 7s linear infinite;
-}
-.mist-line:nth-child(1) {
-  top: 20%;
-  animation-duration: 8s;
-}
-.mist-line:nth-child(2) {
-  top: 50%;
-  animation-duration: 10s;
-  animation-delay: -3s;
-}
-.mist-line:nth-child(3) {
-  top: 80%;
-  animation-duration: 7s;
-  animation-delay: -1.5s;
-}
-
-@keyframes mistDrift {
-  0% {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-}
-
-/* ============================================================
    NAVIGATION
    ============================================================ */
 #navbar {
@@ -454,10 +306,9 @@ h4 {
 .hero-video-wrap {
   position: relative;
   width: 100%;
-  max-width: 900px;
-  margin: 8rem auto 0;
-  aspect-ratio: 16/9;
-  border: 1px solid var(--border-dim);
+  height: 100vh;
+  margin: 0;
+  border: none;
   background: #000;
   overflow: hidden;
 }
@@ -568,11 +419,10 @@ h4 {
   position: relative;
   overflow: hidden;
   border: 1px solid var(--border-dim);
-  /* No fixed aspect-ratio — height is set dynamically by JS per slide,
-     based on each image's natural ratio. Default height below is just
-     a fallback before JS runs / while images load. */
-  height: 400px;
-  transition: height 0.45s ease;
+  /* Locked to a 16:9 (1920x1080) frame — every slide crops to the
+     same ratio via object-fit: cover on .carousel-slide img. */
+  aspect-ratio: 16 / 9;
+  height: auto;
 }
 
 .carousel-track {
@@ -1321,6 +1171,35 @@ footer p {
 }
 
 /* ============================================================
+   PROJECT PAGE — full-screen editable hero background
+   (set via CMS: data-cms-bg="ngilai.heroBackground" etc.)
+   ============================================================ */
+.proj-hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+.proj-hero-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 10, 10, 0.55) 0%,
+    rgba(10, 10, 10, 0.75) 60%,
+    rgba(10, 10, 10, 0.95) 100%
+  );
+}
+.proj-hero-content {
+  z-index: 1;
+}
+
+/* ============================================================
    NAV DROPDOWN — Projects submenu
    ============================================================ */
 .nav-item {
@@ -1444,7 +1323,8 @@ footer p {
   padding: 0 calc(50% - 320px); /* 320 = half card width */
 }
 
-/* Each card */
+/* Each card — now a real link (<a class="peek-card">), the whole
+   card (image, text, and all) is clickable through to the project */
 .peek-card {
   flex: 0 0 640px; /* fixed card width */
   max-width: 640px;
@@ -1459,13 +1339,19 @@ footer p {
   opacity: 0.35;
   transform: scale(0.96);
   cursor: pointer;
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+.peek-card:hover {
+  color: inherit;
 }
 
 .peek-card.active {
   opacity: 1;
   transform: scale(1);
   border-color: var(--border-glow);
-  cursor: default;
+  cursor: pointer;
 }
 
 .peek-card-media {

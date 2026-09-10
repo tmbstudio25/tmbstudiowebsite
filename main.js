@@ -4,41 +4,6 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   /* ----------------------------------------------------------
-     LANDING PAGE — Video
-  ---------------------------------------------------------- */
-  // Find your video using its ID
-  const landingVideo = document.getElementById("landingVideo");
-
-  // Set your cooldown time in milliseconds (3500ms = 3.5 seconds)
-  const cooldownTime = 1000;
-
-  // ONLY add listener if the video element exists on the current page
-  if (landingVideo) {
-    landingVideo.addEventListener("ended", () => {
-      // Wait for the cooldown time, then play it again
-      setTimeout(() => {
-        landingVideo.play();
-      }, cooldownTime);
-    });
-  }
-
-  /* ----------------------------------------------------------
-     LANDING PAGE — Enter button
-  ---------------------------------------------------------- */
-  const landing = document.getElementById("landing");
-  const enterBtn = document.getElementById("enterBtn");
-
-  if (enterBtn && landing) {
-    enterBtn.addEventListener("click", () => {
-      landing.classList.add("hidden");
-      // Re-enable body scroll
-      document.body.style.overflow = "";
-    });
-    // Prevent scroll while landing is shown
-    document.body.style.overflow = "hidden";
-  }
-
-  /* ----------------------------------------------------------
      NAVBAR — scroll class + mobile toggle
   ---------------------------------------------------------- */
   const navbar = document.getElementById("navbar");
@@ -159,10 +124,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /* ----------------------------------------------------------
    Generic Carousel Factory
-   Now ratio-aware: the .carousel-wrap height adapts to each
-   slide's own image aspect ratio (portrait posters, landscape
-   group photos, etc. all display correctly with no cropping
-   distortion).
+   Slides are a fixed 16:9 (1920x1080) ratio via CSS
+   (.carousel-wrap { aspect-ratio: 16/9 }), so no JS height
+   measuring is needed — every image crops to the same frame.
 ---------------------------------------------------------- */
 function initCarousel({
   trackSelector,
@@ -178,9 +142,6 @@ function initCarousel({
 
   if (!track) return;
 
-  // The wrap is the carousel's direct parent (has class "carousel-wrap")
-  const wrap = track.closest(".carousel-wrap");
-
   let current = 0;
 
   // Build dots
@@ -195,29 +156,6 @@ function initCarousel({
     }
   }
 
-  // Resize the wrap's height to match the active slide's image ratio
-  function updateHeight() {
-    if (!wrap) return;
-    const activeSlide = track.children[current];
-    if (!activeSlide) return;
-    const img = activeSlide.querySelector("img");
-    if (!img) return;
-
-    const setHeightFromImg = () => {
-      const wrapWidth = wrap.offsetWidth;
-      const ratio = img.naturalHeight / img.naturalWidth; // h/w
-      if (ratio > 0) {
-        wrap.style.height = `${wrapWidth * ratio}px`;
-      }
-    };
-
-    if (img.complete && img.naturalWidth) {
-      setHeightFromImg();
-    } else {
-      img.addEventListener("load", setHeightFromImg, { once: true });
-    }
-  }
-
   function goTo(n) {
     current = (n + slideCount) % slideCount;
     track.style.transform = `translateX(-${current * 100}%)`;
@@ -226,17 +164,10 @@ function initCarousel({
         .querySelectorAll(".carousel-dot")
         .forEach((d, i) => d.classList.toggle("active", i === current));
     }
-    updateHeight();
   }
 
   prev && prev.addEventListener("click", () => goTo(current - 1));
   next && next.addEventListener("click", () => goTo(current + 1));
-
-  // Re-measure on window resize so height stays correct responsively
-  window.addEventListener("resize", () => updateHeight());
-
-  // Set initial height once the first image is ready
-  updateHeight();
 
   // Auto-advance every 5s
   setInterval(() => goTo(current + 1), 5000);
@@ -309,10 +240,16 @@ function initPeekCarousel() {
     });
   }
 
-  // Clicking a non-active card navigates to it
+  // Cards are real links now (<a class="peek-card" href="...">).
+  // Clicking the active card follows the link as normal.
+  // Clicking a non-active (peeking) card just re-centers it instead
+  // of navigating away.
   cards.forEach((card, i) => {
-    card.addEventListener('click', () => {
-      if (i !== current) goTo(i);
+    card.addEventListener('click', (e) => {
+      if (i !== current) {
+        e.preventDefault();
+        goTo(i);
+      }
     });
   });
 

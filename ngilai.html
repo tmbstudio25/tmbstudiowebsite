@@ -582,18 +582,13 @@
      HERO — Full-screen title with background video
      ================================================================ -->
     <div class="proj-hero">
-      <!--
-    Optional: use the game footage as a subtle background
-    <video class="proj-hero-video" autoplay muted loop playsinline>
-      <source src="./assets/ngilai/ngilai WITH BLOOD.mp4" type="video/mp4" />
-    </video>
-  -->
+      <div class="proj-hero-bg" data-cms-bg="ngilai.heroBackground" style="background-image: url('./assets/cms-placeholder-bg.svg');"></div>
 
       <div class="proj-hero-content reveal">
         <p class="proj-hero-eyebrow">TMB Studio · Current Project</p>
-        <h1 class="proj-hero-title">NGILAI</h1>
-        <p class="proj-hero-tagline">One Deal, No Salvation</p>
-        <div class="proj-hero-status">● In Development — Expected Q3 2026</div>
+        <h1 class="proj-hero-title" data-cms-text="ngilai.title">NGILAI</h1>
+        <p class="proj-hero-tagline" data-cms-text="ngilai.tagline">One Deal, No Salvation</p>
+        <div class="proj-hero-status" data-cms-text="ngilai.status">● In Development — Expected Q3 2026</div>
         <br />
         <a href="./index.html#projects" class="proj-hero-back"
           >&#8592; &nbsp;Back</a
@@ -610,6 +605,7 @@
           <!-- Left: game cover poster -->
           <div class="proj-cover-img reveal">
             <img
+              data-cms-src="ngilai.coverImage"
               src="./assets/ngilai/ngilai poster empty landscape.jpg"
               alt="ngilai visuals"
               height="100"
@@ -619,34 +615,27 @@
           <!-- Right: logo + description -->
           <div class="proj-about-right reveal">
             <div class="proj-title-logo">
-              <!--
-            If they have a NGILAI logo image file, use:
-            <img src="./assets/ngilai/ngilai-logo.png" alt="NGILAI" />
-            Otherwise the text title below shows instead.
-          -->
-              <div class="proj-title-text">NGILAI</div>
-              <div class="proj-title-sub">One Deal, No Salvation</div>
+              <div class="proj-title-text" data-cms-text="ngilai.title">NGILAI</div>
+              <div class="proj-title-sub" data-cms-text="ngilai.tagline">One Deal, No Salvation</div>
             </div>
 
-            <p class="proj-description">
+            <p class="proj-description" data-cms-text="ngilai.description.0">
               The game is a
-              <strong>narrative-driven psychological horror</strong> experience
+              narrative-driven psychological horror experience
               set across isolated and abandoned locations. The story follows a
               lone protagonist who awakens in an unfamiliar hospital with
               fragmented memories and a growing sense of unease.
             </p>
-            <p class="proj-description">
+            <p class="proj-description" data-cms-text="ngilai.description.1">
               As the protagonist escapes and journeys deeper into a
-              <strong>forgotten village hidden within the forest</strong>, the
+              forgotten village hidden within the forest, the
               environment gradually reveals traces of a forbidden ritual
               performed in the past.
             </p>
-            <p class="proj-description">
+            <p class="proj-description" data-cms-text="ngilai.description.2">
               The tone of the game is tense, unsettling, and introspective —
               emphasizing
-              <strong
-                >psychological fear, moral consequence, and atmosphere</strong
-              >
+              psychological fear, moral consequence, and atmosphere
               over direct confrontation.
             </p>
           </div>
@@ -661,24 +650,28 @@
     <section class="chapter-section">
       <div class="image-side">
         <img
+          data-cms-src="ngilai.chapters.0.image"
           src="./assets/ngilai/ngilai chapter 1.jpg"
           alt="Chapter 1 Artwork"
           class="chapter-image active"
           id="img-ch1"
         />
         <img
+          data-cms-src="ngilai.chapters.1.image"
           src="./assets/ngilai/ngilai chapter 2.jpg"
           alt="Chapter 2 Artwork"
           class="chapter-image"
           id="img-ch2"
         />
         <img
+          data-cms-src="ngilai.chapters.2.image"
           src="./assets/ngilai/ngilai chapter 3.jpg"
           alt="Chapter 3 Artwork"
           class="chapter-image"
           id="img-ch3"
         />
         <img
+          data-cms-src="ngilai.chapters.3.image"
           src="./assets/ngilai/ngilai chapter 4.jpg"
           alt="Chapter 4 Artwork"
           class="chapter-image"
@@ -698,8 +691,8 @@
 
         <div class="text-box">
           <div class="synopsis-content active" id="text-ch1">
-            <h3>Chapter 1</h3>
-            <p>
+            <h3 data-cms-text="ngilai.chapters.0.title">Chapter 1</h3>
+            <p data-cms-html="ngilai.chapters.0.text">
               The player wakes up with no memory and must explore the dark
               hospital, find key items, collect scattered notes, and search for
               a way out while strange sounds and distant laughter follow them.
@@ -710,22 +703,22 @@
           </div>
 
           <div class="synopsis-content" id="text-ch2">
-            <h3>Chapter 2</h3>
-            <p>
+            <h3 data-cms-text="ngilai.chapters.1.title">Chapter 2</h3>
+            <p data-cms-html="ngilai.chapters.1.text">
               TBD
             </p>
           </div>
 
           <div class="synopsis-content" id="text-ch3">
-            <h3>Chapter 3</h3>
-            <p>
+            <h3 data-cms-text="ngilai.chapters.2.title">Chapter 3</h3>
+            <p data-cms-html="ngilai.chapters.2.text">
               TBD
             </p>
           </div>
 
           <div class="synopsis-content" id="text-ch4">
-            <h3>Chapter 4</h3>
-            <p>
+            <h3 data-cms-text="ngilai.chapters.3.title">Chapter 4</h3>
+            <p data-cms-html="ngilai.chapters.3.text">
               TBD
             </p>
           </div>
@@ -785,19 +778,19 @@
           <div class="proj-exhibition-text reveal">
             <span class="section-label">About Our Project</span>
             <h2>IMINE 2.0</h2>
-            <span class="proj-event-name"
+            <span class="proj-event-name" data-cms-text="ngilai.exhibitionEventName"
               >International Millennipreneur Innovation &amp; Commercialization
               Exhibition 2.0</span
             >
-            <p>
-              TMB Studio presented <strong>NGILAI</strong> — originally
+            <p data-cms-text="ngilai.exhibitionText1">
+              TMB Studio presented NGILAI — originally
               developed and conceptualized under the title Syirik — at IMINE
               2.0, held at Dewan Agung Tuanku Canselor (DATC), UiTM Shah Alam,
               Selangor on 12–14 April 2026. The exhibition brought together
               emerging entrepreneurs and innovators from across the region.
             </p>
             <br />
-            <p>
+            <p data-cms-text="ngilai.exhibitionText2">
               The showcase gave the team an opportunity to present NGILAI's
               concept, demonstrate early gameplay, and gather feedback from
               players, industry peers, and academics — an important milestone in
@@ -1006,6 +999,7 @@
       <p>© 2026 TMB Studio · Malaysia · All Rights Reserved</p>
     </footer>
 
+    <script src="./cms.js"></script>
     <script src="./main.js"></script>
 
     <!-- for switching chapters -->

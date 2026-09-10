@@ -482,18 +482,13 @@
      HERO — Full-screen title with background video
      ================================================================ -->
     <div class="proj-hero">
-      <!--
-    Optional: use the game footage as a subtle background
-    <video class="proj-hero-video" autoplay muted loop playsinline>
-      <source src="./assets/ngilai/ngilai NO SOUND NO BLOOD.mp4" type="video/mp4" />
-    </video>
-  -->
+      <div class="proj-hero-bg" data-cms-bg="lifegacha.heroBackground" style="background-image: url('./assets/cms-placeholder-bg.svg');"></div>
 
       <div class="proj-hero-content reveal">
         <p class="proj-hero-eyebrow">TMB Studio · Current Project</p>
-        <h1 class="proj-hero-title">Life<br />Gacha!</h1>
-        <p class="proj-hero-tagline">Gacha With Life As Currency</p>
-        <div class="proj-hero-status">● In Development</div>
+        <h1 class="proj-hero-title" data-cms-html="lifegacha.title">Life<br />Gacha!</h1>
+        <p class="proj-hero-tagline" data-cms-text="lifegacha.tagline">Gacha With Life As Currency</p>
+        <div class="proj-hero-status" data-cms-text="lifegacha.status">● In Development</div>
         <br />
         <a href="./index.html#projects" class="proj-hero-back"
           >&#8592; &nbsp;Back</a
@@ -509,22 +504,18 @@
         <div class="proj-about-grid">
           <!-- Left: game cover poster -->
           <div class="proj-cover-img reveal">
-              <img src="./assets/life gacha/Life Gacha Art.png" alt="Life Gacha! cover" />
+              <img data-cms-src="lifegacha.coverImage" src="./assets/life gacha/Life Gacha Art.png" alt="Life Gacha! cover" />
           </div>
 
           <!-- Right: logo + description -->
           <div class="proj-about-right reveal">
             <div class="proj-title-logo">
-              <!--
-                If they have a Life Gacha! logo image file, use:
-                <img src="./assets/lifegacha/lifegacha-logo.png" alt="Life Gacha!" />
-              -->
-              <div class="proj-title-text">Life Gacha!</div>
+              <div class="proj-title-text" data-cms-text="lifegacha.title">Life Gacha!</div>
               <div class="proj-title-sub">Turn Based · Rogue-like</div>
             </div>
 
-            <p class="proj-description">
-              <strong>Life Gacha!</strong> is a turn-based, rogue-like game where players spend their own lifespan
+            <p class="proj-description" data-cms-text="lifegacha.description">
+              Life Gacha! is a turn-based, rogue-like game where players spend their own lifespan
               to roll a gacha in exchange for weapons and survival. Every roll is a gamble — pulling stronger
               items brings the player closer to victory, but also closer to death.
             </p>
@@ -593,14 +584,14 @@
           <div class="proj-exhibition-text reveal">
             <span class="section-label">About Our Project</span>
             <h2>GameFest 2026</h2>
-            <span class="proj-event-name">GDG IIUM GameFest 2026 — GD GameJam Pitching</span>
-            <p>
+            <span class="proj-event-name" data-cms-text="lifegacha.exhibitionEventName">GDG IIUM GameFest 2026 — GD GameJam Pitching</span>
+            <p data-cms-text="lifegacha.exhibitionText1">
               TMB Studio pitched Life Gacha! at the GDG IIUM GameFest 2026, presented under the
               GD GameJam — a 7-Day Creation Challenge. The pitch introduced the game's core
               concept: a turn-based gacha system where the player's own life is the currency.
             </p>
             <br />
-            <p>
+            <p data-cms-text="lifegacha.exhibitionText2">
               Built in a tight development window, Life Gacha! stood out for its risk-reward design
               and stylized, high-contrast visual direction — giving the judges and fellow developers
               a clear look at the team's ability to execute a focused concept under pressure.
@@ -673,24 +664,24 @@
 
         <div class="proj-features-grid">
           <div class="proj-feature-card reveal">
-            <h4>Turn-Based Life Gacha</h4>
-            <p>
+            <h4 data-cms-text="lifegacha.features.0.title">Turn-Based Life Gacha</h4>
+            <p data-cms-text="lifegacha.features.0.text">
               The player takes turns fighting enemies using items gained from gacha rolls. Every roll, however,
               costs the player a piece of their own life.
             </p>
           </div>
 
           <div class="proj-feature-card reveal">
-            <h4>Aging Visual</h4>
-            <p>
+            <h4 data-cms-text="lifegacha.features.1.title">Aging Visual</h4>
+            <p data-cms-text="lifegacha.features.1.text">
               The player's appearance changes according to their remaining life. The more they spend on the
               gacha, the more visibly they age — and the closer they get to losing everything.
             </p>
           </div>
 
           <div class="proj-feature-card reveal">
-            <h4>Rest Room</h4>
-            <p>
+            <h4 data-cms-text="lifegacha.features.2.title">Rest Room</h4>
+            <p data-cms-text="lifegacha.features.2.text">
               Players can rest to recover HP, but doing so costs them life in return — there is no safe way
               to recover without paying a price.
             </p>
@@ -847,6 +838,7 @@
       <p>© 2026 TMB Studio · Malaysia · All Rights Reserved</p>
     </footer>
 
+    <script src="./cms.js"></script>
     <script src="./main.js"></script>
   </body>
 </html>
