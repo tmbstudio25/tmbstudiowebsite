@@ -1,6 +1,7 @@
 {
   "home": {
     "heroVideo": "./assets/ngilai/ngilai trailer.mp4",
+    "heroVideoKey": "",
     "aboutImages": [
       "./assets/imine/imine poster.jpg",
       "./assets/imine/imine-group.jpg",

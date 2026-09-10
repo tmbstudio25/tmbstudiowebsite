@@ -1464,6 +1464,44 @@ footer p {
   cursor: default;
 }
 
+/* Side-positioned arrows — sit over the fade edges, vertically
+   centered on the cards, so they're easy to spot at a glance. */
+.peek-arrow-side {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 4;
+  width: 56px;
+  height: 56px;
+  background: rgba(10, 10, 10, 0.75);
+  border-color: var(--border-glow);
+  color: var(--white-dim);
+  font-size: 1.3rem;
+  backdrop-filter: blur(2px);
+}
+.peek-arrow-side:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--pure-white);
+}
+.peek-arrow-side.prev {
+  left: 24px;
+}
+.peek-arrow-side.next {
+  right: 24px;
+}
+@media (max-width: 900px) {
+  .peek-arrow-side {
+    width: 44px;
+    height: 44px;
+  }
+  .peek-arrow-side.prev {
+    left: 8px;
+  }
+  .peek-arrow-side.next {
+    right: 8px;
+  }
+}
+
 .peek-dots {
   display: flex;
   gap: 0.6rem;

@@ -194,6 +194,13 @@
 
         <!-- PEEK CAROUSEL -->
         <div class="peek-carousel-outer">
+          <button
+            class="peek-arrow peek-arrow-side prev"
+            id="peekPrev"
+            aria-label="Previous project"
+          >
+            &#8592;
+          </button>
           <div class="peek-carousel-track" id="peekTrack">
             <!-- CARD 1 — NGILAI -->
             <a class="peek-card active" data-index="0" href="./ngilai.html" data-cms-href="home.projects.0.link">
@@ -247,22 +254,15 @@
             </a>
           </div>
           <!-- /peek-carousel-track -->
+          <button class="peek-arrow peek-arrow-side next" id="peekNext" aria-label="Next project">
+            &#8594;
+          </button>
         </div>
         <!-- /peek-carousel-outer -->
 
-        <!-- Controls below the carousel -->
+        <!-- Dots below the carousel -->
         <div class="peek-carousel-controls">
-          <button
-            class="peek-arrow"
-            id="peekPrev"
-            aria-label="Previous project"
-          >
-            &#8592;
-          </button>
           <div class="peek-dots" id="peekDots"></div>
-          <button class="peek-arrow" id="peekNext" aria-label="Next project">
-            &#8594;
-          </button>
         </div>
       </div>
     </section>

@@ -50,47 +50,82 @@ export default {
     }
 
     const url = new URL(request.url);
-    if (url.pathname !== "/upload" || request.method !== "POST") {
-      return new Response("Not found", { status: 404, headers: corsHeaders(origin) });
-    }
 
-    const authorized = await isAuthorized(request, env);
-    if (!authorized) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401,
+    if (url.pathname === "/upload" && request.method === "POST") {
+      const authorized = await isAuthorized(request, env);
+      if (!authorized) {
+        return new Response(JSON.stringify({ error: "Unauthorized" }), {
+          status: 401,
+          headers: { ...corsHeaders(origin), "Content-Type": "application/json" },
+        });
+      }
+
+      let form;
+      try {
+        form = await request.formData();
+      } catch (e) {
+        return new Response(JSON.stringify({ error: "Expected multipart/form-data" }), {
+          status: 400,
+          headers: { ...corsHeaders(origin), "Content-Type": "application/json" },
+        });
+      }
+
+      const file = form.get("file");
+      if (!file || typeof file === "string") {
+        return new Response(JSON.stringify({ error: "No file provided" }), {
+          status: 400,
+          headers: { ...corsHeaders(origin), "Content-Type": "application/json" },
+        });
+      }
+
+      const key = `${Date.now()}-${crypto.randomUUID()}-${safeFileName(file.name || "upload")}`;
+
+      await env.MEDIA_BUCKET.put(key, file.stream(), {
+        httpMetadata: { contentType: file.type || "application/octet-stream" },
+      });
+
+      const publicUrl = `${env.PUBLIC_R2_URL.replace(/\/$/, "")}/${key}`;
+
+      return new Response(JSON.stringify({ url: publicUrl, key }), {
+        status: 200,
         headers: { ...corsHeaders(origin), "Content-Type": "application/json" },
       });
     }
 
-    let form;
-    try {
-      form = await request.formData();
-    } catch (e) {
-      return new Response(JSON.stringify({ error: "Expected multipart/form-data" }), {
-        status: 400,
+    if (url.pathname === "/delete" && request.method === "POST") {
+      const authorized = await isAuthorized(request, env);
+      if (!authorized) {
+        return new Response(JSON.stringify({ error: "Unauthorized" }), {
+          status: 401,
+          headers: { ...corsHeaders(origin), "Content-Type": "application/json" },
+        });
+      }
+
+      let body;
+      try {
+        body = await request.json();
+      } catch (e) {
+        return new Response(JSON.stringify({ error: "Expected JSON body: { key }" }), {
+          status: 400,
+          headers: { ...corsHeaders(origin), "Content-Type": "application/json" },
+        });
+      }
+
+      if (!body.key || typeof body.key !== "string") {
+        return new Response(JSON.stringify({ error: "Missing 'key'" }), {
+          status: 400,
+          headers: { ...corsHeaders(origin), "Content-Type": "application/json" },
+        });
+      }
+
+      await env.MEDIA_BUCKET.delete(body.key);
+
+      return new Response(JSON.stringify({ deleted: true, key: body.key }), {
+        status: 200,
         headers: { ...corsHeaders(origin), "Content-Type": "application/json" },
       });
     }
 
-    const file = form.get("file");
-    if (!file || typeof file === "string") {
-      return new Response(JSON.stringify({ error: "No file provided" }), {
-        status: 400,
-        headers: { ...corsHeaders(origin), "Content-Type": "application/json" },
-      });
-    }
-
-    const key = `${Date.now()}-${crypto.randomUUID()}-${safeFileName(file.name || "upload")}`;
-
-    await env.MEDIA_BUCKET.put(key, file.stream(), {
-      httpMetadata: { contentType: file.type || "application/octet-stream" },
-    });
-
-    const publicUrl = `${env.PUBLIC_R2_URL.replace(/\/$/, "")}/${key}`;
-
-    return new Response(JSON.stringify({ url: publicUrl, key }), {
-      status: 200,
-      headers: { ...corsHeaders(origin), "Content-Type": "application/json" },
-    });
+    return new Response("Not found", { status: 404, headers: corsHeaders(origin) });
   },
 };
