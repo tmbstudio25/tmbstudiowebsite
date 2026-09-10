@@ -1,0 +1,14 @@
+name = "tmb-media-uploader"
+main = "src/index.js"
+compatibility_date = "2024-11-01"
+
+# R2 bucket the Worker writes uploads into.
+# This must match the bucket name in your Cloudflare dashboard exactly.
+[[r2_buckets]]
+binding = "MEDIA_BUCKET"
+bucket_name = "tmb-website-repositories"
+
+[vars]
+SUPABASE_URL = "https://rmfyfinfiujiqwljuxld.supabase.co"
+SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJtZnlmaW5maXVqaXF3bGp1eGxkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY3NTcwMTgsImV4cCI6MjEwMjMzMzAxOH0.aJVN9JwpiJLA1Q-x_r9hfmAl7KRwTv97MHsJuWh-td8"
+PUBLIC_R2_URL = "https://pub-f1f78e5c68c242538bedd84c6ee971df.r2.dev"

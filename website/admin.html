@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Content Manager — TMB Studio</title>
+<link rel="stylesheet" href="./style.css" />
+<style>
+  body {
+    overflow-x: hidden;
+    scroll-snap-type: none;
+    height: auto;
+  }
+  .cms-shell {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 3rem 2rem 6rem;
+  }
+  .cms-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    border-bottom: 1px solid var(--border-dim);
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+  }
+  .cms-header h1 {
+    font-family: var(--font-display);
+    font-size: 1.9rem;
+    color: var(--pure-white);
+    letter-spacing: 0.04em;
+    margin-bottom: 0.4rem;
+  }
+  .cms-header p {
+    color: var(--grey-muted);
+    font-size: 0.95rem;
+    max-width: 480px;
+  }
+  .cms-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    align-items: flex-end;
+  }
+  .cms-btn {
+    font-family: var(--font-heading);
+    font-size: 0.72rem;
+    letter-spacing: 0.15rem;
+    text-transform: uppercase;
+    padding: 0.65rem 1.3rem;
+    border: 1px solid var(--border-dim);
+    background: transparent;
+    color: var(--white-dim);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+    white-space: nowrap;
+  }
+  .cms-btn:hover {
+    border-color: var(--border-glow);
+    background: rgba(255,255,255,0.06);
+  }
+  .cms-btn.primary {
+    background: var(--white);
+    color: var(--black);
+    border-color: var(--white);
+  }
+  .cms-btn.primary:hover {
+    background: transparent;
+    color: var(--white);
+  }
+  .cms-status {
+    font-family: var(--font-heading);
+    font-size: 0.68rem;
+    letter-spacing: 0.1rem;
+    color: var(--grey-muted);
+    min-height: 1.2em;
+  }
+  .cms-status.saved { color: #8aff8a; }
+
+  .cms-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+  }
+  .cms-tab {
+    font-family: var(--font-heading);
+    font-size: 0.72rem;
+    letter-spacing: 0.15rem;
+    text-transform: uppercase;
+    padding: 0.7rem 1.4rem;
+    border: 1px solid var(--border-dim);
+    background: transparent;
+    color: var(--grey-muted);
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+  }
+  .cms-tab.active {
+    color: var(--pure-white);
+    border-color: var(--border-glow);
+    background: rgba(255,255,255,0.05);
+  }
+
+  .cms-panel { display: none; }
+  .cms-panel.active { display: block; }
+
+  .cms-field {
+    border: 1px solid var(--border-dim);
+    background: rgba(255,255,255,0.015);
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .cms-field label {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 0.7rem;
+    letter-spacing: 0.12rem;
+    text-transform: uppercase;
+    color: var(--grey-light);
+    margin-bottom: 0.75rem;
+  }
+  .cms-field input[type="text"],
+  .cms-field textarea {
+    width: 100%;
+    background: var(--grey-deep);
+    border: 1px solid var(--border-dim);
+    color: var(--white-dim);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    padding: 0.65rem 0.85rem;
+    resize: vertical;
+  }
+  .cms-field input[type="text"]:focus,
+  .cms-field textarea:focus {
+    outline: none;
+    border-color: var(--border-glow);
+  }
+  .cms-field textarea { min-height: 90px; }
+
+  .cms-media-row {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .cms-preview {
+    width: 140px;
+    height: 79px; /* 16:9 */
+    background: var(--grey-mid);
+    border: 1px solid var(--border-dim);
+    flex-shrink: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cms-preview img,
+  .cms-preview video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .cms-media-controls {
+    flex: 1;
+    min-width: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .cms-upload-label {
+    display: inline-block;
+    width: fit-content;
+    font-family: var(--font-heading);
+    font-size: 0.68rem;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    color: var(--white-dim);
+    border: 1px solid var(--border-dim);
+    padding: 0.45rem 0.9rem;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .cms-upload-label:hover { border-color: var(--border-glow); }
+  .cms-hint {
+    font-size: 0.78rem;
+    color: var(--grey-muted);
+    line-height: 1.5;
+  }
+  .cms-hint.warn { color: #d9a05b; }
+
+  .cms-notice {
+    border-left: 2px solid var(--border-glow);
+    background: rgba(255,255,255,0.03);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2.5rem;
+    color: var(--grey-muted);
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+  .cms-notice strong { color: var(--white-dim); }
+  .cms-notice ol { margin: 0.75rem 0 0 1.25rem; }
+  .cms-notice li { margin-bottom: 0.4rem; }
+
+  .cms-preview-links {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+  }
+</style>
+</head>
+<body>
+  <div class="cms-shell">
+    <div class="cms-header">
+      <div>
+        <h1>Content Manager</h1>
+        <p>Edit TMB Studio's images, video, and text. Changes preview instantly in this browser — download and commit <code>content.json</code> to publish them for everyone.</p>
+      </div>
+      <div class="cms-actions">
+        <div style="display:flex; gap:0.6rem;">
+          <button class="cms-btn" id="resetBtn">Discard preview</button>
+          <button class="cms-btn primary" id="exportBtn">Download content.json</button>
+        </div>
+        <span class="cms-status" id="statusEl"></span>
+      </div>
+    </div>
+
+    <div class="cms-notice">
+      <strong>How publishing works.</strong> This site has no server, so edits made here live only in this browser until you publish them.
+      <ol>
+        <li>Edit fields below — each change auto-saves as a local preview.</li>
+        <li>Use the preview links to open the live pages in a new tab and check how it looks.</li>
+        <li>When you're happy, click <strong>Download content.json</strong> and replace the <code>content.json</code> file in your website's repository with it, then commit &amp; push.</li>
+        <li>If you uploaded new images/video as files (rather than pasting a path), also add those files to your repo's <code>assets</code> folder — see the hint under each upload.</li>
+      </ol>
+    </div>
+
+    <div class="cms-preview-links">
+      <a class="cms-btn" href="./index.html" target="_blank" rel="noopener">Preview Home &nbsp;&#8594;</a>
+      <a class="cms-btn" href="./ngilai.html" target="_blank" rel="noopener">Preview NGILAI &nbsp;&#8594;</a>
+      <a class="cms-btn" href="./lifegacha.html" target="_blank" rel="noopener">Preview Life Gacha! &nbsp;&#8594;</a>
+    </div>
+
+    <div class="cms-tabs" id="tabsEl"></div>
+    <div id="panelsEl"></div>
+  </div>
+
+  <script>
+    const CMS_KEY = "tmb_cms_content";
+
+    const SCHEMA = [
+      {
+        id: "home", label: "Home",
+        fields: [
+          { path: "home.heroVideo", label: "Looping hero video (top of home page)", type: "video" },
+          { path: "home.aboutImages.0", label: "Who We Are — image 1", type: "image" },
+          { path: "home.aboutImages.1", label: "Who We Are — image 2", type: "image" },
+          { path: "home.aboutImages.2", label: "Who We Are — image 3", type: "image" },
+          { path: "home.aboutImages.3", label: "Who We Are — image 4", type: "image" },
+          { path: "home.projects.0.title", label: "Project 1 — title", type: "text" },
+          { path: "home.projects.0.description", label: "Project 1 — description", type: "textarea" },
+          { path: "home.projects.0.media", label: "Project 1 — card video", type: "video" },
+          { path: "home.projects.0.tag", label: "Project 1 — status tag", type: "text" },
+          { path: "home.projects.0.genre", label: "Project 1 — genre", type: "text" },
+          { path: "home.projects.0.platform", label: "Project 1 — platform", type: "text" },
+          { path: "home.projects.0.link", label: "Project 1 — link (page it opens)", type: "text" },
+          { path: "home.projects.1.title", label: "Project 2 — title", type: "text" },
+          { path: "home.projects.1.description", label: "Project 2 — description", type: "textarea" },
+          { path: "home.projects.1.media", label: "Project 2 — card image", type: "image" },
+          { path: "home.projects.1.tag", label: "Project 2 — status tag", type: "text" },
+          { path: "home.projects.1.genre", label: "Project 2 — genre", type: "text" },
+          { path: "home.projects.1.platform", label: "Project 2 — platform", type: "text" },
+          { path: "home.projects.1.link", label: "Project 2 — link (page it opens)", type: "text" },
+        ]
+      },
+      {
+        id: "ngilai", label: "NGILAI",
+        fields: [
+          { path: "ngilai.heroBackground", label: "Full-screen hero background", type: "image" },
+          { path: "ngilai.title", label: "Title", type: "text" },
+          { path: "ngilai.tagline", label: "Tagline", type: "text" },
+          { path: "ngilai.status", label: "Status badge", type: "text" },
+          { path: "ngilai.coverImage", label: "Cover image (About section)", type: "image" },
+          { path: "ngilai.description.0", label: "Description — paragraph 1", type: "textarea" },
+          { path: "ngilai.description.1", label: "Description — paragraph 2", type: "textarea" },
+          { path: "ngilai.description.2", label: "Description — paragraph 3", type: "textarea" },
+          { path: "ngilai.chapters.0.title", label: "Chapter 1 — title", type: "text" },
+          { path: "ngilai.chapters.0.text", label: "Chapter 1 — text (use <br> for a line break)", type: "textarea" },
+          { path: "ngilai.chapters.0.image", label: "Chapter 1 — image", type: "image" },
+          { path: "ngilai.chapters.1.title", label: "Chapter 2 — title", type: "text" },
+          { path: "ngilai.chapters.1.text", label: "Chapter 2 — text", type: "textarea" },
+          { path: "ngilai.chapters.1.image", label: "Chapter 2 — image", type: "image" },
+          { path: "ngilai.chapters.2.title", label: "Chapter 3 — title", type: "text" },
+          { path: "ngilai.chapters.2.text", label: "Chapter 3 — text", type: "textarea" },
+          { path: "ngilai.chapters.2.image", label: "Chapter 3 — image", type: "image" },
+          { path: "ngilai.chapters.3.title", label: "Chapter 4 — title", type: "text" },
+          { path: "ngilai.chapters.3.text", label: "Chapter 4 — text", type: "textarea" },
+          { path: "ngilai.chapters.3.image", label: "Chapter 4 — image", type: "image" },
+          { path: "ngilai.exhibitionEventName", label: "Exhibition — event name", type: "text" },
+          { path: "ngilai.exhibitionText1", label: "Exhibition — paragraph 1", type: "textarea" },
+          { path: "ngilai.exhibitionText2", label: "Exhibition — paragraph 2", type: "textarea" },
+        ]
+      },
+      {
+        id: "lifegacha", label: "Life Gacha!",
+        fields: [
+          { path: "lifegacha.heroBackground", label: "Full-screen hero background", type: "image" },
+          { path: "lifegacha.title", label: "Title", type: "text" },
+          { path: "lifegacha.tagline", label: "Tagline", type: "text" },
+          { path: "lifegacha.status", label: "Status badge", type: "text" },
+          { path: "lifegacha.coverImage", label: "Cover image (About section)", type: "image" },
+          { path: "lifegacha.description", label: "Description", type: "textarea" },
+          { path: "lifegacha.features.0.title", label: "Feature 1 — title", type: "text" },
+          { path: "lifegacha.features.0.text", label: "Feature 1 — text", type: "textarea" },
+          { path: "lifegacha.features.1.title", label: "Feature 2 — title", type: "text" },
+          { path: "lifegacha.features.1.text", label: "Feature 2 — text", type: "textarea" },
+          { path: "lifegacha.features.2.title", label: "Feature 3 — title", type: "text" },
+          { path: "lifegacha.features.2.text", label: "Feature 3 — text", type: "textarea" },
+          { path: "lifegacha.exhibitionEventName", label: "Exhibition — event name", type: "text" },
+          { path: "lifegacha.exhibitionText1", label: "Exhibition — paragraph 1", type: "textarea" },
+          { path: "lifegacha.exhibitionText2", label: "Exhibition — paragraph 2", type: "textarea" },
+        ]
+      }
+    ];
+
+    let content = {};
+    let saveTimer = null;
+
+    function getPath(obj, path) {
+      return path.split(".").reduce((o, k) => (o && o[k] !== undefined ? o[k] : undefined), obj);
+    }
+    function setPath(obj, path, value) {
+      const keys = path.split(".");
+      let cur = obj;
+      for (let i = 0; i < keys.length - 1; i++) {
+        const k = keys[i];
+        const nextIsIndex = /^\d+$/.test(keys[i + 1]);
+        if (cur[k] === undefined || cur[k] === null) cur[k] = nextIsIndex ? [] : {};
+        cur = cur[k];
+      }
+      cur[keys[keys.length - 1]] = value;
+    }
+
+    async function loadContent() {
+      let base = {};
+      try {
+        const res = await fetch("./content.json", { cache: "no-store" });
+        if (res.ok) base = await res.json();
+      } catch (e) { console.warn("Could not load content.json", e); }
+
+      try {
+        const raw = localStorage.getItem(CMS_KEY);
+        if (raw) base = JSON.parse(raw); // local preview already contains a full copy
+      } catch (e) {}
+
+      content = base;
+    }
+
+    function saveLocalPreview() {
+      localStorage.setItem(CMS_KEY, JSON.stringify(content));
+      const statusEl = document.getElementById("statusEl");
+      statusEl.textContent = "Preview saved to this browser ✓";
+      statusEl.classList.add("saved");
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(() => { statusEl.textContent = ""; statusEl.classList.remove("saved"); }, 2200);
+    }
+
+    function fileToDataURL(file) {
+      return new Promise((resolve, reject) => {
+        const r = new FileReader();
+        r.onload = () => resolve(r.result);
+        r.onerror = reject;
+        r.readAsDataURL(file);
+      });
+    }
+
+    function renderTabs() {
+      const tabsEl = document.getElementById("tabsEl");
+      tabsEl.innerHTML = "";
+      SCHEMA.forEach((section, i) => {
+        const btn = document.createElement("button");
+        btn.className = "cms-tab" + (i === 0 ? " active" : "");
+        btn.textContent = section.label;
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".cms-tab").forEach(t => t.classList.remove("active"));
+          document.querySelectorAll(".cms-panel").forEach(p => p.classList.remove("active"));
+          btn.classList.add("active");
+          document.getElementById("panel-" + section.id).classList.add("active");
+        });
+        tabsEl.appendChild(btn);
+      });
+    }
+
+    function renderField(field) {
+      const wrap = document.createElement("div");
+      wrap.className = "cms-field";
+
+      const label = document.createElement("label");
+      label.textContent = field.label;
+      wrap.appendChild(label);
+
+      const currentVal = getPath(content, field.path) || "";
+
+      if (field.type === "text" || field.type === "textarea") {
+        const input = document.createElement(field.type === "textarea" ? "textarea" : "input");
+        if (field.type === "text") input.type = "text";
+        input.value = currentVal;
+        input.addEventListener("input", () => {
+          setPath(content, field.path, input.value);
+          saveLocalPreview();
+        });
+        wrap.appendChild(input);
+        return wrap;
+      }
+
+      // image / video
+      const row = document.createElement("div");
+      row.className = "cms-media-row";
+
+      const preview = document.createElement("div");
+      preview.className = "cms-preview";
+      const mediaEl = document.createElement(field.type === "video" ? "video" : "img");
+      if (field.type === "video") { mediaEl.muted = true; mediaEl.controls = true; }
+      mediaEl.src = currentVal;
+      preview.appendChild(mediaEl);
+      row.appendChild(preview);
+
+      const controls = document.createElement("div");
+      controls.className = "cms-media-controls";
+
+      const pathInput = document.createElement("input");
+      pathInput.type = "text";
+      pathInput.placeholder = "./assets/your-file.jpg";
+      pathInput.value = currentVal;
+      pathInput.addEventListener("input", () => {
+        setPath(content, field.path, pathInput.value);
+        mediaEl.src = pathInput.value;
+        saveLocalPreview();
+      });
+
+      const uploadLabel = document.createElement("label");
+      uploadLabel.className = "cms-upload-label";
+      uploadLabel.textContent = "Upload " + (field.type === "video" ? "video" : "image") + " file";
+      const fileInput = document.createElement("input");
+      fileInput.type = "file";
+      fileInput.accept = field.type === "video" ? "video/*" : "image/*";
+      fileInput.style.display = "none";
+      uploadLabel.appendChild(fileInput);
+
+      const hint = document.createElement("div");
+      hint.className = "cms-hint";
+      hint.textContent = field.type === "video"
+        ? "Best practice: upload the file to your repo's assets folder yourself, then paste its path above. Uploading here embeds the video directly in content.json, which works but can make that file very large."
+        : "Uploading here embeds the image directly in content.json (simplest). For a lighter file, upload the image to your assets folder instead and paste its path above.";
+
+      fileInput.addEventListener("change", async () => {
+        const file = fileInput.files[0];
+        if (!file) return;
+        if (field.type === "video" && file.size > 8 * 1024 * 1024) {
+          hint.textContent = "This video is " + (file.size / (1024*1024)).toFixed(1) + "MB — that's large to embed. Consider uploading it to the assets folder in your repo and pasting the path instead.";
+          hint.classList.add("warn");
+        }
+        const dataUrl = await fileToDataURL(file);
+        pathInput.value = dataUrl;
+        mediaEl.src = dataUrl;
+        setPath(content, field.path, dataUrl);
+        saveLocalPreview();
+      });
+
+      controls.appendChild(pathInput);
+      controls.appendChild(uploadLabel);
+      controls.appendChild(hint);
+      row.appendChild(controls);
+      wrap.appendChild(row);
+      return wrap;
+    }
+
+    function renderPanels() {
+      const panelsEl = document.getElementById("panelsEl");
+      panelsEl.innerHTML = "";
+      SCHEMA.forEach((section, i) => {
+        const panel = document.createElement("div");
+        panel.className = "cms-panel" + (i === 0 ? " active" : "");
+        panel.id = "panel-" + section.id;
+        section.fields.forEach(field => panel.appendChild(renderField(field)));
+        panelsEl.appendChild(panel);
+      });
+    }
+
+    function downloadContentJson() {
+      const blob = new Blob([JSON.stringify(content, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "content.json";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    document.getElementById("exportBtn").addEventListener("click", downloadContentJson);
+    document.getElementById("resetBtn").addEventListener("click", async () => {
+      if (!confirm("Discard all local preview edits and reload from the published content.json?")) return;
+      localStorage.removeItem(CMS_KEY);
+      await loadContent();
+      renderPanels();
+      const statusEl = document.getElementById("statusEl");
+      statusEl.textContent = "Local preview discarded";
+      statusEl.classList.remove("saved");
+    });
+
+    (async function init() {
+      await loadContent();
+      renderTabs();
+      renderPanels();
+    })();
+  </script>
+</body>
+</html>
