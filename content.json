@@ -7,65 +7,6 @@
       "./assets/imine/imine-group.jpg",
       "./assets/GDGoC IIUM game fest 2026/game-fest-2026-poster.jpg",
       "./assets/GDGoC IIUM game fest 2026/game-fest-2026-group.jpg"
-    ],
-    "projects": [
-      {
-        "title": "NGILAI",
-        "description": "A narrative-driven psychological horror experience set across isolated and abandoned locations, rooted in Malaysian folklore.",
-        "mediaType": "video",
-        "media": "./assets/ngilai/ngilai WITH BLOOD.mp4",
-        "tag": "In Development",
-        "genre": "Horror / Narrative",
-        "platform": "TBA",
-        "link": "./ngilai.html"
-      },
-      {
-        "title": "Life Gacha!",
-        "description": "Life Gacha! is a turn-based, rogue-like game where players spend their own lifespan to roll a gacha in exchange for weapons and survival. Every roll is a gamble — pulling stronger items brings the player closer to victory, but also closer to death.",
-        "mediaType": "image",
-        "media": "./assets/life gacha/Life Gacha Art.png",
-        "tag": "In Development",
-        "genre": "Turn-Based, Rogue-like",
-        "platform": "TBA",
-        "link": "./lifegacha.html"
-      }
     ]
-  },
-  "ngilai": {
-    "heroBackground": "./assets/cms-placeholder-bg.svg",
-    "title": "NGILAI",
-    "tagline": "One Deal, No Salvation",
-    "status": "● In Development — Expected Q3 2026",
-    "coverImage": "./assets/ngilai/ngilai poster empty landscape.jpg",
-    "description": [
-      "The game is a narrative-driven psychological horror experience set across isolated and abandoned locations. The story follows a lone protagonist who awakens in an unfamiliar hospital with fragmented memories and a growing sense of unease.",
-      "As the protagonist escapes and journeys deeper into a forgotten village hidden within the forest, the environment gradually reveals traces of a forbidden ritual performed in the past.",
-      "The tone of the game is tense, unsettling, and introspective — emphasizing psychological fear, moral consequence, and atmosphere over direct confrontation."
-    ],
-    "chapters": [
-      { "title": "Chapter 1", "text": "The player wakes up with no memory and must explore the dark hospital, find key items, collect scattered notes, and search for a way out while strange sounds and distant laughter follow them.<br><br>Escape the hospital. Survive the laughter.", "image": "./assets/ngilai/ngilai chapter 1.jpg" },
-      { "title": "Chapter 2", "text": "TBD", "image": "./assets/ngilai/ngilai chapter 2.jpg" },
-      { "title": "Chapter 3", "text": "TBD", "image": "./assets/ngilai/ngilai chapter 3.jpg" },
-      { "title": "Chapter 4", "text": "TBD", "image": "./assets/ngilai/ngilai chapter 4.jpg" }
-    ],
-    "exhibitionEventName": "International Millennipreneur Innovation & Commercialization Exhibition 2.0",
-    "exhibitionText1": "TMB Studio presented NGILAI — originally developed and conceptualized under the title Syirik — at IMINE 2.0, held at Dewan Agung Tuanku Canselor (DATC), UiTM Shah Alam, Selangor on 12–14 April 2026. The exhibition brought together emerging entrepreneurs and innovators from across the region.",
-    "exhibitionText2": "The showcase gave the team an opportunity to present NGILAI's concept, demonstrate early gameplay, and gather feedback from players, industry peers, and academics — an important milestone in the studio's development journey."
-  },
-  "lifegacha": {
-    "heroBackground": "./assets/cms-placeholder-bg.svg",
-    "title": "Life Gacha!",
-    "tagline": "Gacha With Life As Currency",
-    "status": "● In Development",
-    "coverImage": "./assets/life gacha/Life Gacha Art.png",
-    "description": "Life Gacha! is a turn-based, rogue-like game where players spend their own lifespan to roll a gacha in exchange for weapons and survival. Every roll is a gamble — pulling stronger items brings the player closer to victory, but also closer to death.",
-    "features": [
-      { "title": "Turn-Based Life Gacha", "text": "The player takes turns fighting enemies using items gained from gacha rolls. Every roll, however, costs the player a piece of their own life." },
-      { "title": "Aging Visual", "text": "The player's appearance changes according to their remaining life. The more they spend on the gacha, the more visibly they age — and the closer they get to losing everything." },
-      { "title": "Rest Room", "text": "Players can rest to recover HP, but doing so costs them life in return — there is no safe way to recover without paying a price." }
-    ],
-    "exhibitionEventName": "GDG IIUM GameFest 2026 — GD GameJam Pitching",
-    "exhibitionText1": "TMB Studio pitched Life Gacha! at the GDG IIUM GameFest 2026, presented under the GD GameJam — a 7-Day Creation Challenge. The pitch introduced the game's core concept: a turn-based gacha system where the player's own life is the currency.",
-    "exhibitionText2": "Built in a tight development window, Life Gacha! stood out for its risk-reward design and stylized, high-contrast visual direction — giving the judges and fellow developers a clear look at the team's ability to execute a focused concept under pressure."
   }
 }

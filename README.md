@@ -1,32 +1,35 @@
 # TMB Studio — file organization
 
-This zip has **two separate folders** that go to two separate places:
+This zip has **three things** that go to different places:
 
 ## `website/`
-This is your actual site — everything here goes into your GitHub repo
-(the one connected to GitHub Pages / tmbstudio.my), alongside your
-existing `assets/` folder full of real media.
+Your actual site — everything here goes into your GitHub repo
+(replace what's already there), alongside your existing `assets/`
+folder full of real media.
 
-- Copy `index.html`, `ngilai.html`, `lifegacha.html`, `main.js`,
-  `style.css`, `admin.html`, `cms.js`, `content.json`, and `CNAME` into
-  your repo, replacing the old versions.
-- Copy `assets/cms-placeholder-bg.svg` into your existing `assets/`
-  folder (don't replace the whole folder — you already have your real
-  media in there).
-- Commit and push as usual.
+Notable changes this round:
+- `ngilai.html` and `lifegacha.html` are now tiny redirect stubs —
+  they just forward to `project.html?slug=ngilai` / `?slug=lifegacha`
+  so any old bookmarks/links still work. The real content now lives
+  in Supabase and renders through `project.html`.
+- `project.html` + `project-page.js` — the one shared template for
+  every project, rendered dynamically by slug.
+- `site-data.js` — read-only Supabase access used by `index.html`
+  and `project.html` to fetch published projects.
+- `content.json` is much smaller now — it only holds the home page
+  video and the Who We Are carousel images. Project data moved to
+  the database.
+
+## `supabase-schema-v2.sql`
+Run this in Supabase → SQL Editor → New query → Run.
+
+**This replaces your `projects` table** (drops and recreates it —
+fine since nothing had been customized there yet) with the new
+shape: no chapters, no exhibition, adds a supporting-images gallery
+and a real status field. It reseeds NGILAI and Life Gacha! with
+their current content. `site_settings` is untouched.
 
 ## `cloudflare-worker/`
-This is **not** part of your website — it's a separate small program
-that deploys to Cloudflare, not GitHub Pages. Keep it in its own
-folder on your computer, away from the website files.
-
-- `wrangler.toml` and `src/index.js` are already filled in with your
-  Supabase URL, anon key, and R2 bucket details.
-- From inside this folder, run `wrangler deploy` to publish it.
-- It has nothing to do with `git push` — you never commit this to
-  your website repo.
-
-Once the Worker is deployed, send Claude the `workers.dev` URL it
-prints, and the rest of the Supabase/Cloudflare wiring can be
-finished (admin.html login screen + upload buttons, dynamic projects
-list, etc).
+Unchanged from before — not part of the website, deploys separately
+to Cloudflare via `wrangler deploy`. Nothing to redo here unless
+you're setting it up fresh.

@@ -202,56 +202,8 @@
             &#8592;
           </button>
           <div class="peek-carousel-track" id="peekTrack">
-            <!-- CARD 1 — NGILAI -->
-            <a class="peek-card active" data-index="0" href="./ngilai.html" data-cms-href="home.projects.0.link">
-              <div class="peek-card-media">
-                <video id="featuredprojectVideo" autoplay muted playsinline>
-                  <source
-                    data-cms-src="home.projects.0.media"
-                    src="./assets/ngilai/ngilai WITH BLOOD.mp4"
-                    type="video/mp4"
-                  />
-                </video>
-                <span class="peek-card-tag" data-cms-text="home.projects.0.tag">In Development</span>
-              </div>
-              <div class="peek-card-body">
-                <h3 data-cms-text="home.projects.0.title">NGILAI</h3>
-                <p data-cms-text="home.projects.0.description">
-                  A narrative-driven psychological horror experience set across
-                  isolated and abandoned locations, rooted in Malaysian
-                  folklore.
-                </p>
-                <div class="peek-card-footer">
-                  <div class="peek-card-meta">
-                    <div><span>Genre</span> <span data-cms-text="home.projects.0.genre">Horror / Narrative</span></div>
-                    <div><span>Platform</span> <span data-cms-text="home.projects.0.platform">TBA</span></div>
-                  </div>
-                  <span class="btn-project">Learn More &nbsp;&#8594;</span>
-                </div>
-              </div>
-            </a>
-
-            <!-- CARD 2 — LIFE GACHA! -->
-            <a class="peek-card" data-index="1" href="./lifegacha.html" data-cms-href="home.projects.1.link">
-              <div class="peek-card-media">
-                  <img data-cms-src="home.projects.1.media" src="./assets/life gacha/Life Gacha Art.png" alt="Life Gacha!" />
-                <span class="peek-card-tag" data-cms-text="home.projects.1.tag">In Development</span>
-              </div>
-              <div class="peek-card-body">
-                <h3 data-cms-text="home.projects.1.title">Life Gacha!</h3>
-                <p data-cms-text="home.projects.1.description">
-                  Life Gacha! is a turn-based, rogue-like game where players spend their own lifespan to roll a gacha in exchange for weapons and survival. 
-                  Every roll is a gamble — pulling stronger items brings the player closer to victory, but also closer to death.
-                </p>
-                <div class="peek-card-footer">
-                  <div class="peek-card-meta">
-                    <div><span>Genre</span> <span data-cms-text="home.projects.1.genre">Turn-Based, Rogue-like</span></div>
-                    <div><span>Platform</span> <span data-cms-text="home.projects.1.platform">TBA</span></div>
-                  </div>
-                  <span class="btn-project">Learn More &nbsp;&#8594;</span>
-                </div>
-              </div>
-            </a>
+            <!-- Cards rendered dynamically from Supabase — see the
+                 script at the bottom of the page. -->
           </div>
           <!-- /peek-carousel-track -->
           <button class="peek-arrow peek-arrow-side next" id="peekNext" aria-label="Next project">
@@ -527,8 +479,72 @@
       <p>© 2026 TMB Studio · Malaysia · All Rights Reserved</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script src="./site-data.js"></script>
     <script src="./cms.js"></script>
     <script src="./main.js"></script>
+
+    <!-- Render the Projects carousel from Supabase and populate the
+         Projects nav dropdown, then start the carousel once cards exist. -->
+    <script>
+      (async function () {
+        const track = document.getElementById("peekTrack");
+        const projects = await window.TMB_DATA.fetchProjects();
+
+        window.TMB_DATA.populateNavDropdowns(projects);
+
+        projects.forEach((p, i) => {
+          const card = document.createElement("a");
+          card.className = "peek-card" + (i === 0 ? " active" : "");
+          card.dataset.index = i;
+          card.href = `./project.html?slug=${encodeURIComponent(p.slug)}`;
+
+          const media = document.createElement("div");
+          media.className = "peek-card-media";
+          if (p.card_media_type === "video" && p.card_media_url) {
+            const video = document.createElement("video");
+            video.autoplay = true;
+            video.muted = true;
+            video.loop = true;
+            video.playsInline = true;
+            const source = document.createElement("source");
+            source.src = p.card_media_url;
+            source.type = "video/mp4";
+            video.appendChild(source);
+            media.appendChild(video);
+          } else if (p.card_media_url) {
+            const img = document.createElement("img");
+            img.src = p.card_media_url;
+            img.alt = p.title || "";
+            media.appendChild(img);
+          }
+          const tag = document.createElement("span");
+          tag.className = "peek-card-tag";
+          tag.textContent = window.TMB_DATA.statusLabel(p).replace(/^●\s*/, "");
+          media.appendChild(tag);
+          card.appendChild(media);
+
+          const body = document.createElement("div");
+          body.className = "peek-card-body";
+          body.innerHTML = `
+            <h3>${p.title || ""}</h3>
+            <p>${(p.description || [])[0] || ""}</p>
+            <div class="peek-card-footer">
+              <div class="peek-card-meta">
+                <div><span>Genre</span> ${p.genre || ""}</div>
+                <div><span>Platform</span> ${p.platform || ""}</div>
+              </div>
+              <span class="btn-project">Learn More &nbsp;&#8594;</span>
+            </div>
+          `;
+          card.appendChild(body);
+
+          track.appendChild(card);
+        });
+
+        if (projects.length) initPeekCarousel();
+      })();
+    </script>
 
     <!-- Mute toggle function for local video (Option B) -->
     <script>

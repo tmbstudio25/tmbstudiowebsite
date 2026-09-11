@@ -264,6 +264,8 @@ function initPeekCarousel() {
   const total   = cards.length;
   let current   = 0;
 
+  if (total === 0) return; // nothing to show yet (e.g. Supabase fetch still pending)
+
   // Build dots
   if (dotsEl) {
     cards.forEach((_, i) => {
@@ -312,7 +314,7 @@ function initPeekCarousel() {
   goTo(0);
 }
 
-// Call it on DOM ready (append to existing listener)
-document.addEventListener('DOMContentLoaded', () => {
-  initPeekCarousel();
-});
+// initPeekCarousel() is now called explicitly by index.html's own script,
+// right after it finishes rendering the project cards fetched from
+// Supabase — calling it before any cards exist would break (division
+// by zero / accessing cards[0] on an empty list).
