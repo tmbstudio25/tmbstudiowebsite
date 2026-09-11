@@ -156,7 +156,13 @@
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 1rem;
-    margin-bottom: 2rem;
+    margin: -3rem -3rem 2rem;
+    padding: 1.25rem 3rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(10, 10, 10, 0.97);
+    border-bottom: 1px solid var(--border-dim);
   }
   .cms-toolbar-actions { display: flex; gap: 0.6rem; align-items: center; }
 
@@ -435,16 +441,27 @@
 
     function saveLocalPreview() {
       localStorage.setItem(CMS_KEY, JSON.stringify(content));
-      flashStatus("Preview saved to this browser", "saved");
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+      setStatus(`Saved to this browser · ${timeStr}`, "saved");
     }
 
-    function flashStatus(msg, cls) {
+    function markUnsaved() {
+      setStatus("Unsaved changes — saving…", "");
+    }
+
+    function setStatus(msg, cls) {
       const statusEl = document.getElementById("statusEl");
       if (!statusEl) return;
       statusEl.textContent = msg;
       statusEl.className = "cms-status" + (cls ? " " + cls : "");
+    }
+
+    function flashStatus(msg, cls) {
+      // Kept for error messages that should stand out but not persist forever.
+      setStatus(msg, cls);
       clearTimeout(saveTimer);
-      saveTimer = setTimeout(() => { statusEl.textContent = ""; statusEl.className = "cms-status"; }, 2600);
+      saveTimer = setTimeout(() => saveLocalPreview(), 2600);
     }
 
     /* ============================================================
@@ -764,20 +781,20 @@
 
     function renderPages() {
       const pagesEl = document.getElementById("pagesEl");
+      const activeIdBefore = document.querySelector(".cms-page.active")?.id?.replace("page-", "") || PAGES[0].id;
       pagesEl.innerHTML = "";
 
       const toolbar = document.createElement("div");
       toolbar.className = "cms-toolbar";
       toolbar.innerHTML = `
-        <span class="cms-status" id="statusEl"></span>
+        <span class="cms-status saved" id="statusEl">All changes saved to this browser</span>
         <div class="cms-toolbar-actions">
+          <button class="cms-btn" id="saveNowBtn">Save Now</button>
           <button class="cms-btn" id="resetBtn">Discard preview</button>
           <button class="cms-btn primary" id="exportBtn">Download content.json</button>
         </div>
       `;
       pagesEl.appendChild(toolbar);
-
-      const activeIdBefore = document.querySelector(".cms-page.active")?.id?.replace("page-", "") || PAGES[0].id;
 
       PAGES.forEach((page) => {
         const pageEl = document.createElement("div");
@@ -810,6 +827,9 @@
         pagesEl.appendChild(pageEl);
       });
 
+      document.getElementById("saveNowBtn").addEventListener("click", () => {
+        saveLocalPreview();
+      });
       document.getElementById("exportBtn").addEventListener("click", downloadContentJson);
       document.getElementById("resetBtn").addEventListener("click", async () => {
         if (!confirm("Discard all local preview edits and reload from the published content.json?")) return;
