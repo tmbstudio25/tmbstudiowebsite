@@ -2,11 +2,17 @@
   "home": {
     "heroVideo": "./assets/ngilai/ngilai trailer.mp4",
     "heroVideoKey": "",
+    "aboutTitle": "Bringing Local to Global",
+    "aboutParagraphs": [
+      "TMB Studio is a Malaysian indie game and animation studio dedicated to creating immersive experiences through game development, 3D animation, and motion graphics.",
+      "Inspired by the myths, folklore, and untold stories of Southeast Asia, we transform cultural heritage into modern interactive experiences that entertain, inspire, and leave a lasting impression.",
+      "Driven by creativity and a passion for storytelling, we continue to explore new ideas, refine our craft, and share our journey as we build original worlds for players and audiences around the globe."
+    ],
     "aboutImages": [
-      "./assets/imine/imine poster.jpg",
-      "./assets/imine/imine-group.jpg",
-      "./assets/GDGoC IIUM game fest 2026/game-fest-2026-poster.jpg",
-      "./assets/GDGoC IIUM game fest 2026/game-fest-2026-group.jpg"
+      { "url": "./assets/imine/imine poster.jpg", "key": "" },
+      { "url": "./assets/imine/imine-group.jpg", "key": "" },
+      { "url": "./assets/GDGoC IIUM game fest 2026/game-fest-2026-poster.jpg", "key": "" },
+      { "url": "./assets/GDGoC IIUM game fest 2026/game-fest-2026-group.jpg", "key": "" }
     ]
   }
 }

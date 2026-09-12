@@ -83,14 +83,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ----------------------------------------------------------
      ABOUT CAROUSEL
+     Initialized from index.html's own script, right after it
+     renders the slides from content.json — calling this before
+     any slides exist would break (slideCount would be 0).
   ---------------------------------------------------------- */
-  initCarousel({
-    trackSelector: "#aboutCarouselTrack",
-    dotsSelector: "#aboutDots",
-    prevBtn: "#aboutPrev",
-    nextBtn: "#aboutNext",
-    slideCount: 4,
-  });
 
    /* ----------------------------------------------------------
     NGILAI CAROUSEL (ngilai.html)
@@ -175,7 +171,7 @@ function initCarousel({
   const prev = document.querySelector(prevBtn);
   const next = document.querySelector(nextBtn);
 
-  if (!track) return;
+  if (!track || !slideCount) return;
 
   let current = 0;
 

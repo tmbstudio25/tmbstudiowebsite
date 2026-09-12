@@ -119,30 +119,8 @@
         <div class="reveal">
           <div class="carousel-wrap">
             <div class="carousel-track" id="aboutCarouselTrack">
-              <div class="carousel-slide">
-                <img data-cms-src="home.aboutImages.0" src="./assets/imine/imine poster.jpg" alt="imine poster" />
-              </div>
-              <div class="carousel-slide">
-                <img
-                  data-cms-src="home.aboutImages.1"
-                  src="./assets/imine/imine-group.jpg"
-                  alt="imine group picture"
-                />
-              </div>
-              <div class="carousel-slide">
-                <img
-                  data-cms-src="home.aboutImages.2"
-                  src="./assets/GDGoC IIUM game fest 2026/game-fest-2026-poster.jpg"
-                  alt="game fest 2026 poster"
-                />
-              </div>
-              <div class="carousel-slide">
-                <img
-                  data-cms-src="home.aboutImages.3"
-                  src="./assets/GDGoC IIUM game fest 2026/game-fest-2026-group.jpg"
-                  alt="game fest 2026 group picture"
-                />
-              </div>
+              <!-- Slides rendered dynamically from content.json — see
+                   the script near the bottom of the page. -->
             </div>
             <button
               class="carousel-btn prev"
@@ -160,19 +138,19 @@
 
         <div class="about-text reveal">
           <span class="section-label">Who We Are</span>
-          <h2>Bringing Local to Global</h2>
+          <h2 data-cms-text="home.aboutTitle">Bringing Local to Global</h2>
           <hr class="divider" style="margin: 1.5rem 0" />
-          <p>
+          <p data-cms-text="home.aboutParagraphs.0">
             TMB Studio is a Malaysian indie game and animation studio dedicated
             to creating immersive experiences through game development, 3D
             animation, and motion graphics.
           </p>
-          <p>
+          <p data-cms-text="home.aboutParagraphs.1">
             Inspired by the myths, folklore, and untold stories of Southeast
             Asia, we transform cultural heritage into modern interactive
             experiences that entertain, inspire, and leave a lasting impression.
           </p>
-          <p>
+          <p data-cms-text="home.aboutParagraphs.2">
             Driven by creativity and a passion for storytelling, we continue to
             explore new ideas, refine our craft, and share our journey as we
             build original worlds for players and audiences around the globe.
@@ -544,6 +522,33 @@
 
         if (projects.length) initPeekCarousel();
       })();
+    </script>
+
+    <!-- Render the Who We Are carousel slides from content.json once
+         cms.js has loaded them, then start the carousel. -->
+    <script>
+      document.addEventListener("tmb-content-applied", (e) => {
+        const images = (e.detail && e.detail.home && e.detail.home.aboutImages) || [];
+        const track = document.getElementById("aboutCarouselTrack");
+        if (!track) return;
+        track.innerHTML = "";
+        images.forEach((img) => {
+          const slide = document.createElement("div");
+          slide.className = "carousel-slide";
+          const imgEl = document.createElement("img");
+          imgEl.src = typeof img === "string" ? img : img.url;
+          imgEl.alt = "";
+          slide.appendChild(imgEl);
+          track.appendChild(slide);
+        });
+        initCarousel({
+          trackSelector: "#aboutCarouselTrack",
+          dotsSelector: "#aboutDots",
+          prevBtn: "#aboutPrev",
+          nextBtn: "#aboutNext",
+          slideCount: images.length,
+        });
+      });
     </script>
 
     <!-- Mute toggle function for local video (Option B) -->

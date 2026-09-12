@@ -262,6 +262,48 @@
   }
 
   .cms-preview-links { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 2rem; }
+
+  /* ---------- Crop modal ---------- */
+  .crop-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  .crop-modal {
+    background: var(--grey-deep);
+    border: 1px solid var(--border-dim);
+    padding: 2rem;
+    max-width: 560px;
+    width: 100%;
+  }
+  .crop-modal h3 {
+    font-family: var(--font-display);
+    color: var(--pure-white);
+    font-size: 1.2rem;
+    margin-bottom: 0.4rem;
+  }
+  .crop-modal p.crop-hint { color: var(--grey-muted); font-size: 0.85rem; margin-bottom: 1.25rem; }
+  .crop-viewport {
+    position: relative;
+    overflow: hidden;
+    background: #000;
+    border: 1px solid var(--border-dim);
+    margin: 0 auto 1.25rem;
+    cursor: grab;
+    user-select: none;
+  }
+  .crop-viewport.dragging { cursor: grabbing; }
+  .crop-viewport img { position: absolute; top: 0; left: 0; max-width: none; }
+  .crop-zoom-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; }
+  .crop-zoom-row span { font-size: 0.7rem; color: var(--grey-muted); font-family: var(--font-heading); letter-spacing: 0.1rem; }
+  .crop-zoom-row input[type="range"] { flex: 1; }
+  .crop-modal-actions { display: flex; justify-content: flex-end; gap: 0.75rem; }
+
 </style>
 </head>
 <body>
@@ -331,12 +373,12 @@
       {
         id: "home", label: "Home",
         kind: "fields",
-        description: "The hero video and the Who We Are carousel on the home page. Project cards are managed on the Projects page now.",
+        description: "The hero video and the Who We Are section on the home page. Project cards are managed on the Projects page now.",
         fields: [
-          { path: "home.aboutImages.0", label: "Who We Are — image 1", type: "image" },
-          { path: "home.aboutImages.1", label: "Who We Are — image 2", type: "image" },
-          { path: "home.aboutImages.2", label: "Who We Are — image 3", type: "image" },
-          { path: "home.aboutImages.3", label: "Who We Are — image 4", type: "image" },
+          { path: "home.aboutTitle", label: "Who We Are — heading", type: "text" },
+          { path: "home.aboutParagraphs.0", label: "Who We Are — paragraph 1", type: "textarea" },
+          { path: "home.aboutParagraphs.1", label: "Who We Are — paragraph 2", type: "textarea" },
+          { path: "home.aboutParagraphs.2", label: "Who We Are — paragraph 3", type: "textarea" },
         ]
       },
       {
@@ -437,6 +479,121 @@
         const body = await res.json().catch(() => ({}));
         throw new Error(body.error || `Delete failed (${res.status})`);
       }
+    }
+
+    /* ============================================================
+       CROP MODAL — lets the person pan/zoom an uploaded image inside
+       a fixed-ratio window, then exports exactly that crop as a new
+       file at a consistent resolution. Used for every image upload
+       so media stays a uniform ratio across the site.
+       ============================================================ */
+    function openCropModal(file, { ratioW = 16, ratioH = 9, outW = 1920, outH = 1080 } = {}) {
+      return new Promise((resolve) => {
+        const VIEW_W = 480;
+        const VIEW_H = Math.round((VIEW_W * ratioH) / ratioW);
+
+        const overlay = document.createElement("div");
+        overlay.className = "crop-overlay";
+        overlay.innerHTML = `
+          <div class="crop-modal">
+            <h3>Crop image (${ratioW}:${ratioH})</h3>
+            <p class="crop-hint">Drag to reposition, use the slider to zoom. Everything inside the frame is what gets used.</p>
+            <div class="crop-viewport" id="cropViewport" style="width:${VIEW_W}px; height:${VIEW_H}px;">
+              <img id="cropImg" draggable="false" />
+            </div>
+            <div class="crop-zoom-row">
+              <span>ZOOM</span>
+              <input type="range" id="cropZoom" min="1" max="3" step="0.01" value="1" />
+            </div>
+            <div class="crop-modal-actions">
+              <button class="cms-btn" id="cropCancel">Cancel</button>
+              <button class="cms-btn primary" id="cropConfirm">Use This Crop</button>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(overlay);
+
+        const viewport = overlay.querySelector("#cropViewport");
+        const imgEl = overlay.querySelector("#cropImg");
+        const zoomSlider = overlay.querySelector("#cropZoom");
+
+        let naturalW = 0, naturalH = 0, baseScale = 1, scale = 1, offsetX = 0, offsetY = 0;
+        let dragging = false, dragStartX = 0, dragStartY = 0, startOffsetX = 0, startOffsetY = 0;
+
+        const objectUrl = URL.createObjectURL(file);
+        imgEl.src = objectUrl;
+
+        function updateTransform() {
+          const w = naturalW * baseScale * scale;
+          const h = naturalH * baseScale * scale;
+          imgEl.style.width = w + "px";
+          imgEl.style.height = h + "px";
+          const minX = VIEW_W - w, minY = VIEW_H - h;
+          offsetX = Math.min(0, Math.max(minX, offsetX));
+          offsetY = Math.min(0, Math.max(minY, offsetY));
+          imgEl.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+        }
+
+        imgEl.onload = () => {
+          naturalW = imgEl.naturalWidth;
+          naturalH = imgEl.naturalHeight;
+          baseScale = Math.max(VIEW_W / naturalW, VIEW_H / naturalH);
+          offsetX = (VIEW_W - naturalW * baseScale) / 2;
+          offsetY = (VIEW_H - naturalH * baseScale) / 2;
+          updateTransform();
+        };
+
+        zoomSlider.addEventListener("input", () => {
+          scale = parseFloat(zoomSlider.value);
+          updateTransform();
+        });
+
+        viewport.addEventListener("mousedown", (e) => {
+          dragging = true;
+          viewport.classList.add("dragging");
+          dragStartX = e.clientX; dragStartY = e.clientY;
+          startOffsetX = offsetX; startOffsetY = offsetY;
+        });
+        window.addEventListener("mousemove", (e) => {
+          if (!dragging) return;
+          offsetX = startOffsetX + (e.clientX - dragStartX);
+          offsetY = startOffsetY + (e.clientY - dragStartY);
+          updateTransform();
+        });
+        window.addEventListener("mouseup", () => {
+          dragging = false;
+          viewport.classList.remove("dragging");
+        });
+
+        function cleanup() {
+          URL.revokeObjectURL(objectUrl);
+          overlay.remove();
+        }
+
+        overlay.querySelector("#cropCancel").addEventListener("click", () => {
+          cleanup();
+          resolve(null);
+        });
+
+        overlay.querySelector("#cropConfirm").addEventListener("click", () => {
+          const totalScale = baseScale * scale;
+          const srcX = -offsetX / totalScale;
+          const srcY = -offsetY / totalScale;
+          const srcW = VIEW_W / totalScale;
+          const srcH = VIEW_H / totalScale;
+
+          const canvas = document.createElement("canvas");
+          canvas.width = outW;
+          canvas.height = outH;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(imgEl, srcX, srcY, srcW, srcH, 0, 0, outW, outH);
+          canvas.toBlob((blob) => {
+            cleanup();
+            const name = (file.name || "image").replace(/\.[^.]+$/, "") + "-cropped.jpg";
+            resolve(new File([blob], name, { type: "image/jpeg" }));
+          }, "image/jpeg", 0.9);
+        });
+      });
     }
 
     function fileToDataURL(file) {
@@ -554,6 +711,126 @@
 
     // The Home background video: real Upload / Change / Delete against
     // the Cloudflare bucket, not just a pasted path.
+    // The Who We Are carousel images: a variable-length list, each
+    // backed by the Cloudflare bucket, with crop-to-16:9 on upload.
+    function renderAboutImagesField() {
+      const wrap = document.createElement("div");
+      wrap.className = "cms-field";
+      const label = document.createElement("label");
+      label.textContent = "Who We Are — carousel images";
+      wrap.appendChild(label);
+
+      if (!content.home) content.home = {};
+      if (!Array.isArray(content.home.aboutImages)) content.home.aboutImages = [];
+      // Migrate any legacy plain-string entries to {url, key} objects.
+      content.home.aboutImages = content.home.aboutImages.map(img =>
+        typeof img === "string" ? { url: img, key: "" } : img
+      );
+
+      content.home.aboutImages.forEach((img, i) => {
+        const row = document.createElement("div");
+        row.className = "cms-media-row";
+
+        const preview = document.createElement("div");
+        preview.className = "cms-preview";
+        const imgEl = document.createElement("img");
+        imgEl.src = img.url;
+        preview.appendChild(imgEl);
+        row.appendChild(preview);
+
+        const controls = document.createElement("div");
+        controls.className = "cms-media-controls";
+        const hint = document.createElement("div");
+        hint.className = "cms-hint";
+        hint.textContent = img.key ? "Stored in your Cloudflare bucket." : "Not yet uploaded through the CMS.";
+
+        const btnRow = document.createElement("div");
+        btnRow.className = "cms-media-btn-row";
+
+        const changeLbl = document.createElement("label");
+        changeLbl.className = "cms-upload-label";
+        changeLbl.textContent = "Change";
+        const changeInp = document.createElement("input");
+        changeInp.type = "file";
+        changeInp.accept = "image/*";
+        changeInp.style.display = "none";
+        changeInp.addEventListener("change", async () => {
+          const file = changeInp.files[0];
+          if (!file) return;
+          const cropped = await openCropModal(file, { ratioW: 16, ratioH: 9, outW: 1920, outH: 1080 });
+          if (!cropped) return;
+          hint.textContent = "Uploading…";
+          try {
+            const oldKey = img.key;
+            const result = await uploadToWorker(cropped);
+            if (oldKey) await deleteFromWorker(oldKey).catch((e) => console.warn(e));
+            content.home.aboutImages[i] = { url: result.url, key: result.key };
+            saveLocalPreview();
+            renderPages();
+          } catch (e) {
+            hint.textContent = e.message || "Upload failed.";
+            hint.className = "cms-hint error";
+          }
+        });
+        changeLbl.appendChild(changeInp);
+        btnRow.appendChild(changeLbl);
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "cms-upload-label danger";
+        deleteBtn.textContent = "Delete";
+        deleteBtn.addEventListener("click", async () => {
+          if (!confirm("Remove this image from the carousel? If it's in your bucket, it'll be deleted there too.")) return;
+          try {
+            if (img.key) await deleteFromWorker(img.key);
+            content.home.aboutImages.splice(i, 1);
+            saveLocalPreview();
+            renderPages();
+          } catch (e) {
+            hint.textContent = e.message || "Delete failed.";
+            hint.className = "cms-hint error";
+          }
+        });
+        btnRow.appendChild(deleteBtn);
+
+        controls.appendChild(btnRow);
+        controls.appendChild(hint);
+        row.appendChild(controls);
+        wrap.appendChild(row);
+      });
+
+      const addLbl = document.createElement("label");
+      addLbl.className = "cms-upload-label";
+      addLbl.textContent = "+ Add image";
+      const addInp = document.createElement("input");
+      addInp.type = "file";
+      addInp.accept = "image/*";
+      addInp.style.display = "none";
+      addInp.addEventListener("change", async () => {
+        const file = addInp.files[0];
+        if (!file) return;
+        const cropped = await openCropModal(file, { ratioW: 16, ratioH: 9, outW: 1920, outH: 1080 });
+        if (!cropped) return;
+        try {
+          const result = await uploadToWorker(cropped);
+          content.home.aboutImages.push({ url: result.url, key: result.key });
+          saveLocalPreview();
+          renderPages();
+        } catch (e) {
+          alert("Upload failed: " + e.message);
+        }
+      });
+      addLbl.appendChild(addInp);
+      wrap.appendChild(addLbl);
+
+      const overallHint = document.createElement("div");
+      overallHint.className = "cms-hint";
+      overallHint.style.marginTop = "0.75rem";
+      overallHint.textContent = "Every image is cropped to a consistent 16:9 frame on upload so the carousel never looks mismatched.";
+      wrap.appendChild(overallHint);
+
+      return wrap;
+    }
+
     function renderManagedVideoField() {
       const wrap = document.createElement("div");
       wrap.className = "cms-field";
@@ -1343,6 +1620,9 @@
               : renderTextField(field);
             pageEl.appendChild(el);
           });
+          if (page.id === "home") {
+            pageEl.appendChild(renderAboutImagesField());
+          }
         }
 
         pagesEl.appendChild(pageEl);
