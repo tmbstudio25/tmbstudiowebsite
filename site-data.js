@@ -1,9 +1,9 @@
 /* ============================================================
    TMB STUDIO — site-data.js
-   Public, read-only Supabase access for the Projects section:
-   fetches published projects and populates the nav dropdown.
-   The Home page's video/about-images still come from cms.js +
-   content.json for now — this only covers Projects.
+   Public, read-only Supabase access for the Projects section and
+   the Team section: fetches published projects, team members, and
+   populates the nav dropdown. The Home page's video/about-images
+   still come from cms.js + content.json.
    ============================================================ */
 
 const SUPABASE_URL = "https://rmfyfinfiujiqwljuxld.supabase.co";
@@ -53,6 +53,19 @@ const TMB_DATA = (() => {
     });
   }
 
+  async function fetchTeamMembers() {
+    if (!client) return [];
+    const { data, error } = await client
+      .from("team_members")
+      .select("*")
+      .order("sort_order", { ascending: true });
+    if (error) {
+      console.warn("TMB_DATA: could not load team members", error);
+      return [];
+    }
+    return data;
+  }
+
   function statusLabel(project) {
     const map = {
       in_development: "● In Development",
@@ -67,7 +80,7 @@ const TMB_DATA = (() => {
     return `status-${(project.status || "").replace(/_/g, "-")}`;
   }
 
-  return { client, fetchProjects, fetchProjectBySlug, populateNavDropdowns, statusLabel, statusClass };
+  return { client, fetchProjects, fetchProjectBySlug, fetchTeamMembers, populateNavDropdowns, statusLabel, statusClass };
 })();
 
 window.TMB_DATA = TMB_DATA;

@@ -207,50 +207,9 @@
         <span class="ornament">— ✦ —</span>
       </div>
 
-      <div class="team-grid">
-        <div class="team-card reveal">
-          <div class="team-avatar">
-            <img src="./assets/team/team-raziq.png" alt="raziq" />
-          </div>
-          <h3>MOHAMAD RAZIQAIMAN BIN MOHD YAZID</h3>
-          <p class="team-role">
-            Director<br />Lead 3D Generalist<br />Animator
-          </p>
-        </div>
-
-        <div class="team-card reveal">
-          <div class="team-avatar">
-            <img src="./assets/team/team-rizal.png" alt="rizal" />
-          </div>
-          <h3>MOHAMMAD RIZAL BIN BENI</h3>
-          <p class="team-role">
-            Founder<br />Game World Designer<br />Game Level Designer
-          </p>
-        </div>
-
-        <div class="team-card reveal">
-          <div class="team-avatar">
-            <img src="./assets/team/team-irfan.png" alt="irfan" />
-          </div>
-          <h3>MOHAMMAD IRFANLEE SHAWQI BIN JOHN</h3>
-          <p class="team-role">Graphic Designer<br />Environment Artist</p>
-        </div>
-
-        <div class="team-card reveal">
-          <div class="team-avatar">
-            <img src="./assets/team/team-ariff.png" alt="team-ariff" />
-          </div>
-          <h3>AWANGKU MOHAMMAD ARIFF BIN MOHD AZRI</h3>
-          <p class="team-role">Project Coordinator<br />Programmer</p>
-        </div>
-
-        <div class="team-card reveal">
-          <div class="team-avatar">
-            <img src="./assets/team/team-fazlil.png" alt="fazlil" />
-          </div>
-          <h3>MOHD FAZLIL BIN MOHD BILL</h3>
-          <p class="team-role">Lead Gameplay Programmer</p>
-        </div>
+      <div class="team-grid" id="teamGrid">
+        <!-- Cards rendered dynamically from Supabase — see the
+             script near the bottom of the page. -->
       </div>
     </section>
 
@@ -549,6 +508,38 @@
           slideCount: images.length,
         });
       });
+    </script>
+
+    <!-- Render the team grid from Supabase -->
+    <script>
+      (async function () {
+        const grid = document.getElementById("teamGrid");
+        if (!grid) return;
+        const members = await window.TMB_DATA.fetchTeamMembers();
+        members.forEach((m) => {
+          const card = document.createElement("div");
+          card.className = "team-card reveal visible";
+
+          const avatar = document.createElement("div");
+          avatar.className = "team-avatar";
+          const img = document.createElement("img");
+          img.src = m.photo_url || "./assets/cms-placeholder-bg.svg";
+          img.alt = m.name || "";
+          avatar.appendChild(img);
+          card.appendChild(avatar);
+
+          const h3 = document.createElement("h3");
+          h3.textContent = m.name || "";
+          card.appendChild(h3);
+
+          const role = document.createElement("p");
+          role.className = "team-role";
+          role.innerHTML = m.role || "";
+          card.appendChild(role);
+
+          grid.appendChild(card);
+        });
+      })();
     </script>
 
     <!-- Mute toggle function for local video (Option B) -->
